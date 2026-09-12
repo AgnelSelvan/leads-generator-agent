@@ -1,7 +1,10 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useRouter } from "next/navigation";
+import dynamic from "next/dynamic";
+
+const LeadsMap = dynamic(() => import("@/components/LeadsMap"), { ssr: false });
 
 interface Lead {
   pincode: string;
@@ -27,10 +30,11 @@ export default function Home() {
   const [groupedLeads, setGroupedLeads] = useState<Record<string, Lead[]>>({});
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string>("");
-  const [activeTab, setActiveTab] = useState<"chat" | "leads" | "keywords">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "leads" | "keywords" | "map">("chat");
   const [keywords, setKeywords] = useState<{ id: number; keyword: string }[]>([]);
   const [newKeyword, setNewKeyword] = useState("");
   const [keywordLoading, setKeywordLoading] = useState(false);
+  const [sessions, setSessions] = useState<{ session_id: string; title: string; timestamp: string }[]>([]);
 
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedPincode, setSelectedPincode] = useState<string>("All");
@@ -57,6 +61,41 @@ export default function Home() {
     } catch (err) {
       console.error("Error fetching keywords:", err);
     }
+  };
+
+  const fetchSessions = async () => {
+    try {
+      const res = await fetch("http://localhost:8000/sessions");
+      if (res.ok) {
+        const data = await res.json();
+        setSessions(data || []);
+      }
+    } catch (err) {
+      console.error("Error fetching sessions:", err);
+    }
+  };
+
+  const loadChatHistory = async (id: string) => {
+    try {
+      setLoading(true);
+      const res = await fetch(`http://localhost:8000/chat/${id}`);
+      if (res.ok) {
+        const data = await res.json();
+        setMessages(data || []);
+        setSessionId(id);
+        setActiveTab("chat");
+      }
+    } catch (err) {
+      console.error("Error fetching chat history:", err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const createNewChat = () => {
+    setSessionId("");
+    setMessages([]);
+    setActiveTab("chat");
   };
 
   const addKeyword = async (e: React.FormEvent) => {
@@ -94,7 +133,18 @@ export default function Home() {
   useEffect(() => {
     fetchLeads();
     fetchKeywords();
+    fetchSessions();
   }, []);
+
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  const scrollToBottom = () => {
+    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages, loading]);
 
   const sendMessage = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -123,6 +173,7 @@ export default function Home() {
         ]);
         if (data.session_id && !sessionId) {
           setSessionId(data.session_id);
+          fetchSessions();
         }
         fetchLeads();
       }
@@ -155,18 +206,26 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen bg-surface-raised text-text font-sans flex p-4 lg:p-6 gap-6 w-full max-w-[1440px] mx-auto">
+    <div className="min-h-screen bg-surface-raised text-text font-sans flex p-4 lg:p-6 gap-6 w-full max-w-[1440px] mx-auto animate-fade-in">
       {/* Sidebar Navigation */}
-      <div className="w-64 bg-surface text-text rounded-lg shadow-sm flex flex-col h-[calc(100vh-3rem)] flex-shrink-0 border border-hairline-strong">
-        <div className="p-8 pb-8">
-          <h1 className="text-[28px] font-[700] text-balance text-foreground">
+      <div className="w-64 bg-surface text-text rounded-xl shadow-sm flex flex-col h-[calc(100vh-3rem)] flex-shrink-0 border border-hairline-strong overflow-hidden animate-slide-up">
+        <div className="p-8 pb-6 border-b border-hairline">
+          <h1 className="text-[24px] font-[700] text-balance text-foreground mb-4">
             Leads Agent
           </h1>
+          <button 
+            onClick={createNewChat}
+            className="w-full bg-surface-strong text-foreground px-4 py-3 rounded-full font-[600] text-[14px] leading-none transition-all duration-200 hover:opacity-80 flex items-center justify-center gap-2 border border-hairline-strong"
+          >
+            <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 4v16m8-8H4"></path></svg>
+            New Chat
+          </button>
         </div>
-        <nav className="flex-1 flex flex-col p-4 space-y-2">
+        <nav className="flex-1 overflow-y-auto p-4 space-y-2 custom-scrollbar">
+          <div className="text-[11px] font-[700] text-text-mute uppercase tracking-wider px-4 pb-2 pt-2">Menu</div>
           <button
             onClick={() => setActiveTab("chat")}
-            className={`w-full text-left px-5 py-3 rounded-full font-[600] text-[16px] leading-none transition-all duration-200 focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2 ${
+            className={`w-full text-left px-5 py-3 rounded-full font-[600] text-[15px] leading-none transition-all duration-200 focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2 ${
               activeTab === "chat"
                 ? "bg-surface-strong text-foreground"
                 : "text-text-mute hover:bg-surface-strong hover:text-foreground"
@@ -176,7 +235,7 @@ export default function Home() {
           </button>
           <button
             onClick={() => setActiveTab("leads")}
-            className={`w-full text-left flex justify-between items-center px-5 py-3 rounded-full font-[600] text-[16px] leading-none transition-all duration-200 focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2 ${
+            className={`w-full text-left flex justify-between items-center px-5 py-3 rounded-full font-[600] text-[15px] leading-none transition-all duration-200 focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2 ${
               activeTab === "leads"
                 ? "bg-surface-strong text-foreground"
                 : "text-text-mute hover:bg-surface-strong hover:text-foreground"
@@ -184,7 +243,7 @@ export default function Home() {
           >
             Leads
             {Object.keys(groupedLeads).length > 0 && (
-              <span className={`text-[12px] px-2 py-0.5 rounded-full font-[700] tabular-nums ${
+              <span className={`text-[11px] px-2 py-0.5 rounded-full font-[700] tabular-nums ${
                 activeTab === "leads" ? "bg-primary text-on-primary" : "bg-hairline text-foreground"
               }`}>
                 {Object.values(groupedLeads).flat().length}
@@ -193,7 +252,7 @@ export default function Home() {
           </button>
           <button
             onClick={() => setActiveTab("keywords")}
-            className={`w-full text-left flex justify-between items-center px-5 py-3 rounded-full font-[600] text-[16px] leading-none transition-all duration-200 focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2 ${
+            className={`w-full text-left flex justify-between items-center px-5 py-3 rounded-full font-[600] text-[15px] leading-none transition-all duration-200 focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2 ${
               activeTab === "keywords"
                 ? "bg-surface-strong text-foreground"
                 : "text-text-mute hover:bg-surface-strong hover:text-foreground"
@@ -201,13 +260,44 @@ export default function Home() {
           >
             Keywords
             {keywords.length > 0 && (
-              <span className={`text-[12px] px-2 py-0.5 rounded-full font-[700] tabular-nums ${
+              <span className={`text-[11px] px-2 py-0.5 rounded-full font-[700] tabular-nums ${
                 activeTab === "keywords" ? "bg-primary text-on-primary" : "bg-hairline text-foreground"
               }`}>
                 {keywords.length}
               </span>
             )}
           </button>
+          <button
+            onClick={() => setActiveTab("map")}
+            className={`w-full text-left px-5 py-3 rounded-full font-[600] text-[15px] leading-none transition-all duration-200 focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2 ${
+              activeTab === "map"
+                ? "bg-surface-strong text-foreground"
+                : "text-text-mute hover:bg-surface-strong hover:text-foreground"
+            }`}
+          >
+            Map View
+          </button>
+          
+          {sessions.length > 0 && (
+            <div className="pt-6">
+              <div className="text-[11px] font-[700] text-text-mute uppercase tracking-wider px-4 pb-2">Recent Chats</div>
+              <div className="space-y-1">
+                {sessions.map(s => (
+                  <button
+                    key={s.session_id}
+                    onClick={() => loadChatHistory(s.session_id)}
+                    className={`w-full text-left px-5 py-2.5 rounded-full font-[500] text-[13px] leading-tight transition-all duration-200 truncate ${
+                      sessionId === s.session_id && activeTab === "chat"
+                        ? "bg-primary/10 text-primary"
+                        : "text-text-mute hover:bg-surface-strong hover:text-foreground"
+                    }`}
+                  >
+                    {s.title || "New Chat"}
+                  </button>
+                ))}
+              </div>
+            </div>
+          )}
         </nav>
       </div>
 
@@ -235,7 +325,7 @@ export default function Home() {
               {messages.map((msg, i) => (
                 <div
                   key={i}
-                  className={`flex flex-col max-w-[70%] ${
+                  className={`flex flex-col max-w-[70%] animate-message-pop ${
                     msg.role === "user"
                       ? "self-end items-end ml-auto"
                       : "mr-auto"
@@ -265,6 +355,7 @@ export default function Home() {
                   </div>
                 </div>
               )}
+              <div ref={messagesEndRef} />
             </div>
             
             <div className="p-8 px-16 bg-surface border-t border-hairline">
@@ -453,6 +544,35 @@ export default function Home() {
                   </div>
                 )}
               </div>
+            </div>
+          </div>
+        )}
+
+        {activeTab === "map" && (
+          <div className="flex-1 flex flex-col h-full bg-surface animate-fade-in">
+            <div className="px-16 py-12 border-b border-hairline flex justify-between items-center">
+              <div>
+                <h2 className="text-[28px] font-[700] text-balance text-foreground tracking-tight leading-tight">
+                  Lead Locations
+                </h2>
+                <p className="text-[16px] font-[400] text-text-mute mt-2">
+                  Interactive map view of all discovered leads.
+                </p>
+              </div>
+              <div className="flex gap-4 items-center">
+                <select 
+                  value={selectedPincode}
+                  onChange={(e) => setSelectedPincode(e.target.value)}
+                  className="bg-surface-raised rounded-full px-5 py-3 font-[400] text-[14px] focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-0 text-text border border-hairline-strong min-w-[150px] appearance-none"
+                >
+                  <option value="All">All Pincodes</option>
+                  {allPincodes.map(p => <option key={p} value={p}>{p}</option>)}
+                </select>
+              </div>
+            </div>
+            
+            <div className="flex-1 p-8 bg-surface-raised relative z-0">
+              <LeadsMap leads={allLeads} />
             </div>
           </div>
         )}

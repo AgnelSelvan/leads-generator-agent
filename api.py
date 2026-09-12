@@ -52,8 +52,16 @@ async def chat_with_agent(request: ChatRequest):
     Interact with the marketing agent conversationally. 
     The agent will extract contexts like pincodes from the conversation and trigger lead generation automatically.
     """
+    import sqlite3
     session_id = request.session_id or uuid.uuid4().hex
     
+    # Store user message
+    conn = sqlite3.connect("leads.sqlite")
+    cursor = conn.cursor()
+    cursor.execute("INSERT OR IGNORE INTO sessions (session_id, title) VALUES (?, ?)", (session_id, request.message[:30] + "..."))
+    cursor.execute("INSERT INTO chats (session_id, role, content) VALUES (?, ?, ?)", (session_id, "user", request.message))
+    conn.commit()
+
     # Ensure session exists (create if not, ignore if already exists)
     try:
         await session_service.create_session(
@@ -76,7 +84,40 @@ async def chat_with_agent(request: ChatRequest):
             elif isinstance(event.content, str):
                 response_text += event.content
                 
+    # Store assistant response
+    cursor.execute("INSERT INTO chats (session_id, role, content) VALUES (?, ?, ?)", (session_id, "assistant", response_text.strip()))
+    conn.commit()
+    conn.close()
+    
     return {"response": response_text.strip(), "session_id": session_id}
+
+@app.get("/sessions", summary="Get all chat sessions", tags=["Chat"])
+async def get_sessions():
+    import sqlite3
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM sessions ORDER BY timestamp DESC")
+        rows = cursor.fetchall()
+        conn.close()
+        return [dict(r) for r in rows]
+    except Exception as e:
+        return []
+
+@app.get("/chat/{session_id}", summary="Get chat history", tags=["Chat"])
+async def get_chat_history(session_id: str):
+    import sqlite3
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("SELECT role, content FROM chats WHERE session_id = ? ORDER BY id ASC", (session_id,))
+        rows = cursor.fetchall()
+        conn.close()
+        return [dict(r) for r in rows]
+    except Exception as e:
+        return []
 
 async def run_fetch_script(pincode: str):
     process = await asyncio.create_subprocess_exec(
