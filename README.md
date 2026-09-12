@@ -1,87 +1,122 @@
-# Leads Generator Agent
+# 🚀 AI Leads Generator
 
-A conversational ADK-powered AI agent and full-stack web dashboard designed to discover local business leads based on geographic pincodes and organize them for personalized outreach.
+An open-source, AI-powered lead generation dashboard built with **FastAPI**, **Google ADK (Gemini)**, and **Next.js**. 
 
-## 🚀 Features
+This platform allows you to conversationally ask an AI agent to find business leads (e.g., "Find software agencies in 10001"). The agent understands your query, triggers a backend search, saves the leads to a local SQLite database, and plots them beautifully on an interactive map.
 
-- **Conversational AI Agent**: Chat with the Google ADK agent to dynamically extract target contexts and trigger lead generation naturally.
-- **Next.js Web Dashboard**: A modern, responsive React interface to chat with the agent and view all your generated leads visually grouped by pincode.
-- **Pincode-Based Discovery**: Scrapes and gathers exhaustive local business information, formatting phone numbers and emails automatically via Google Maps.
-- **Personalized Message Generation**: Dynamically crafts tailored WhatsApp outreach messages based on the lead's business category and profile.
-- **SQLite Persistence**: Organizes all leads robustly in a local `leads.sqlite` database.
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![React](https://img.shields.io/badge/React-19-blue.svg)
+![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)
+![FastAPI](https://img.shields.io/badge/FastAPI-0.100+-green.svg)
 
-## 📋 Prerequisites
+---
 
-To run this project, you will need:
-- **Python 3.8+** (for the FastAPI backend, ADK agent, and lead generation script)
-- **Node.js** (for running the Next.js web dashboard frontend)
-- A **Google Maps API Key** (for data fetching)
-- A **Gemini API Key** (for the ADK Agent reasoning)
+## ✨ Features
 
-## 🛠️ Installation
+- **🤖 Conversational AI Agent**: Built with Google ADK (Agent Development Kit). Just chat with the agent to request leads!
+- **📍 Interactive Maps**: Visualizes all discovered leads on an OpenStreetMap using Leaflet and React-Leaflet.
+- **🎨 Modern UI/UX**: An elegant, Gen Z / Airbnb-inspired design system built entirely with **Tailwind CSS v4**. Features smooth animations, pill-shaped UI components, and high-contrast typography.
+- **💾 Local Database**: Persists chat history, target keywords, and fetched leads into a local SQLite database (`leads.sqlite`).
+- **⚡ Real-time Streaming**: Uses Server-Sent Events (SSE) to stream data from the backend to the frontend seamlessly.
 
-1. **Clone the repository:**
-   ```bash
-   git clone https://github.com/Smart-Bill-Book/leads-generator-agent.git
-   cd leads-generator-agent
-   ```
+## 🛠️ Tech Stack
 
-2. **Set up the Environment Variables:**
-   Rename `.env.example` to `.env` and fill in your API keys:
-   ```env
-   GOOGLE_MAPS_API_KEY="your_maps_key_here"
-   GEMINI_API_KEY="your_gemini_key_here"
-   ```
+**Frontend:**
+- [Next.js](https://nextjs.org/) (App Router)
+- React 19
+- Tailwind CSS v4
+- React-Leaflet (OpenStreetMap)
 
-3. **Set up the Python Backend:**
-   ```bash
-   python -m venv venv
-   source venv/bin/activate  # On Windows use: .\venv\Scripts\activate
-   pip install -r requirements.txt
-   ```
+**Backend:**
+- [FastAPI](https://fastapi.tiangolo.com/)
+- Python 3.10+
+- Google ADK (Agent Development Kit) & Gemini API
+- SQLite
 
-4. **Set up the Next.js Frontend:**
-   ```bash
-   cd web
-   npm install
-   cd ..
-   ```
+---
 
-## 💻 Usage
+## 🚀 Getting Started
 
-The easiest way to run the full stack (both the Python backend and Next.js frontend) is using the provided launch scripts.
+Follow these instructions to get a copy of the project up and running on your local machine.
 
-**On Windows:**
-Simply double-click `start.bat` or run:
-```powershell
-.\start.bat
-```
+### 1. Clone the repository
 
-**On Linux / macOS:**
 ```bash
-chmod +x start.sh
-./start.sh
+git clone https://github.com/yourusername/leads-generator.git
+cd leads-generator
 ```
 
-This will spin up both the FastAPI backend on port `8000` and the Next.js Dashboard on port `3000`. You can access the UI by opening `http://localhost:3000` in your web browser.
+### 2. Backend Setup (FastAPI & Agent)
 
-### Advanced CLI Usage (Backend Only)
-If you only want to use the backend tools without the UI:
+Create a virtual environment and install the dependencies:
 
-- **Run the Fetcher directly:**
-  ```bash
-  python main.py fetch 10001
-  ```
-- **Start the API Server manually:**
-  ```bash
-  python main.py serve
-  ```
+```bash
+python -m venv venv
+# Windows
+venv\Scripts\activate
+# macOS/Linux
+source venv/bin/activate
 
-## ⚠️ Important Disclaimer and Legal Notice
+pip install -r requirements.txt
+```
 
-- **WhatsApp Terms of Service**: If you plan to automate the personalized messages via OpenWA or other libraries, note that automated messaging can violate WhatsApp's Terms of Service. Sending unsolicited bulk messages will likely result in account bans. It is highly recommended to use the official WhatsApp Cloud API for business use cases.
-- **Data Privacy**: Ensure that your scraping and outreach activities comply with local data protection and privacy regulations. Only reach out to businesses who have public-facing contact information intended for business inquiries.
+Set up your environment variables:
+1. Copy `.env.example` to a new file named `.env`
+2. Open `.env` and add your Gemini API Key:
+   ```env
+   GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+   *(You can get a free key from [Google AI Studio](https://aistudio.google.com/))*
+
+Run the backend server:
+
+```bash
+python api.py
+```
+*The API will start running at `http://localhost:8000`*
+
+### 3. Frontend Setup (Next.js)
+
+Open a new terminal window and navigate to the `web` directory:
+
+```bash
+cd web
+npm install
+```
+
+Start the Next.js development server:
+
+```bash
+npm run dev
+```
+
+Open [http://localhost:3000](http://localhost:3000) in your browser to see the dashboard!
+
+---
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! Feel free to check the issues page.
+Contributions, issues, and feature requests are welcome! 
+Feel free to check [issues page](https://github.com/yourusername/leads-generator/issues).
+
+1. Fork the Project
+2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4. Push to the Branch (`git push origin feature/AmazingFeature`)
+5. Open a Pull Request
+
+## 📄 License
+
+Distributed under the MIT License. See `LICENSE` for more information.
+
+---
+
+## ⚠️ Important Legal Disclaimer
+
+**This project is provided for educational and research purposes only.**
+
+The default Python scraping script (`scripts/fetch_exhaustive_shops.py`) uses automated methods to extract data from Google Maps. 
+**Scraping Google Maps violates Google's Terms of Service.** 
+The creators and contributors of this repository assume **no liability** for how you use this code. 
+
+If you plan to use this project in a production or commercial environment, you **must** replace the scraping script with a legitimate, ToS-compliant data source such as the [official Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview), Yelp API, Apollo, or OpenStreetMap.

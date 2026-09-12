@@ -10,7 +10,7 @@ import subprocess
 
 app = FastAPI(
     title="Leads Generator API",
-    description="API for the Smart Bill Book Leads Generator. This API provides an endpoint to fetch leads from Google Maps based on pincode and stores them in a SQLite database. Includes an SSE stream to monitor progress in real-time.",
+    description="API for the Leads Generator. This API provides an endpoint to fetch leads from Google Maps based on pincode and stores them in a SQLite database. Includes an SSE stream to monitor progress in real-time.",
     version="1.0.0",
     docs_url="/docs",
     redoc_url="/redoc"
@@ -49,12 +49,12 @@ class ChatRequest(BaseModel):
 )
 async def chat_with_agent(request: ChatRequest):
     """
-    Interact with the marketing agent conversationally. 
+    Interact with the marketing agent conversationally.
     The agent will extract contexts like pincodes from the conversation and trigger lead generation automatically.
     """
     import sqlite3
     session_id = request.session_id or uuid.uuid4().hex
-    
+
     # Store user message
     conn = sqlite3.connect("leads.sqlite")
     cursor = conn.cursor()
@@ -65,8 +65,8 @@ async def chat_with_agent(request: ChatRequest):
     # Ensure session exists (create if not, ignore if already exists)
     try:
         await session_service.create_session(
-            session_id=session_id, 
-            user_id=request.user_id, 
+            session_id=session_id,
+            user_id=request.user_id,
             app_name="leads-generator-agent"
         )
     except Exception:
@@ -74,7 +74,7 @@ async def chat_with_agent(request: ChatRequest):
 
     response_text = ""
     content = Content(role="user", parts=[Part(text=request.message)])
-    
+
     async for event in runner.run_async(new_message=content, session_id=session_id, user_id=request.user_id):
         if hasattr(event, 'content') and event.content:
             if getattr(event.content, 'parts', None):
@@ -83,12 +83,12 @@ async def chat_with_agent(request: ChatRequest):
                         response_text += part.text
             elif isinstance(event.content, str):
                 response_text += event.content
-                
+
     # Store assistant response
     cursor.execute("INSERT INTO chats (session_id, role, content) VALUES (?, ?, ?)", (session_id, "assistant", response_text.strip()))
     conn.commit()
     conn.close()
-    
+
     return {"response": response_text.strip(), "session_id": session_id}
 
 @app.get("/sessions", summary="Get all chat sessions", tags=["Chat"])
@@ -167,7 +167,7 @@ async def get_leads():
         cursor.execute("SELECT * FROM leads")
         rows = cursor.fetchall()
         conn.close()
-        
+
         # Group by pincode
         grouped_leads = {}
         for row in rows:
@@ -176,7 +176,7 @@ async def get_leads():
             if pincode not in grouped_leads:
                 grouped_leads[pincode] = []
             grouped_leads[pincode].append(lead)
-            
+
         return {"grouped_leads": grouped_leads, "total_leads": len(rows)}
     except sqlite3.OperationalError:
         return {"grouped_leads": {}, "total_leads": 0, "message": "Database not found or initialized yet."}
