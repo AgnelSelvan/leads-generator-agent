@@ -32,7 +32,7 @@ from google.adk.sessions import InMemorySessionService
 from google.genai.types import Content, Part
 
 session_service = InMemorySessionService()
-runner = Runner(agent=agent, session_service=session_service, app_name="leads_generator")
+runner = Runner(agent=agent, session_service=session_service, app_name="leads-generator-agent")
 
 import uuid
 from typing import Optional
@@ -59,7 +59,7 @@ async def chat_with_agent(request: ChatRequest):
         await session_service.create_session(
             session_id=session_id, 
             user_id=request.user_id, 
-            app_name="leads_generator"
+            app_name="leads-generator-agent"
         )
     except Exception:
         pass

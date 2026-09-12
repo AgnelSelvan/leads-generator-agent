@@ -1,6 +1,6 @@
-# Pincode Leads Generator & WhatsApp Outreach
+# Leads Generator Agent
 
-A Python-based open-source tool designed to generate local business leads based on geographic pincodes and automate personalized outreach via WhatsApp using OpenWA.
+A Python-based open-source ADK agent designed to generate local business leads based on geographic pincodes and automate personalized outreach.
 
 ## 🚀 Features
 

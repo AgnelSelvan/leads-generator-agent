@@ -4,7 +4,7 @@ import uvicorn
 from scripts.fetch_exhaustive_shops import main as fetch_shops
 
 def main():
-    parser = argparse.ArgumentParser(description="Smart Bill Book Leads Generator")
+    parser = argparse.ArgumentParser(description="Leads Generator Agent")
     subparsers = parser.add_subparsers(dest="command", help="Available commands")
 
     # Command: serve
