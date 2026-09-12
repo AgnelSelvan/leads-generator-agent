@@ -1,105 +1,151 @@
 ---
 version: alpha
-name: Superhumon-design-analysis
-description: An inspired interpretation of Superhumon's design language — a fast-email productivity brand split between an editorial dark hero (deep indigo navy with violet-sky atmospheric backdrop and a portrait subject) and a quiet white content body with off-warm-grey ink. The system uses a single proprietary variable display sans, heavy weight 460–540 with tight tracking, and a deep-teal closing CTA band that breaks the indigo/white rhythm with a warm dark interlude. Buttons are tight rounded rectangles, pricing is sober and dense, and the brand reads more like a high-end newsletter than a SaaS app.
+name: Airbnb-design-analysis
+description: A warm, generous consumer marketplace anchored on a clean white canvas and Airbnb Rausch (#ff385c), the single brand voltage that carries every primary CTA, search-button orb, and rating dot. Type runs Airbnb Cereal VF at modest weights — display sits at 22–28px in weight 500/600 rather than the heavy 700+ that fintech and enterprise systems use; the brand trusts photography and generous whitespace over typographic muscle. Three product entries (Homes, Experiences, Services) sit in the top nav with hand-illustrated 32-icon glyphs and "NEW" badges, signaling a marketplace expansion rather than a feature dump. Pill-shaped search bars (`{rounded.full}`), softly rounded property cards (`{rounded.lg}` ~14px), and 32px button radii read as friendly and human — there is no hard corner anywhere except the body grid.
 
 colors:
-  primary: "#1b1938"
-  primary-deep: "#0e0c1f"
-  on-primary: "#ffffff"
-  ink: "#292827"
-  ink-mute: "#73706d"
-  ink-faint: "#9a9794"
+  primary: "#ff385c"
+  primary-active: "#e00b41"
+  primary-disabled: "#ffd1da"
+  primary-error-text: "#c13515"
+  primary-error-text-hover: "#b32505"
+  luxe: "#460479"
+  plus: "#92174d"
+  ink: "#222222"
+  body: "#3f3f3f"
+  muted: "#6a6a6a"
+  muted-soft: "#929292"
+  hairline: "#dddddd"
+  hairline-soft: "#ebebeb"
+  border-strong: "#c1c1c1"
   canvas: "#ffffff"
-  canvas-soft: "#fafaf8"
-  surface-violet-soft: "#c9b4fa"
-  surface-teal-deep: "#0e3030"
-  surface-teal-mid: "#155555"
-  hairline: "#e8e4dd"
-  hairline-dark: "#3f3a52"
-  on-dark-mute: "#bcbac9"
-  on-dark-faint: "#5a5772"
+  surface-soft: "#f7f7f7"
+  surface-card: "#ffffff"
+  surface-strong: "#f2f2f2"
+  on-primary: "#ffffff"
+  on-dark: "#ffffff"
+  legal-link: "#428bff"
+  star-rating: "#222222"
+  scrim: "#000000"
 
 typography:
-  display-xxl:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
-    fontSize: 64px
-    fontWeight: 540
-    lineHeight: 0.96
-    letterSpacing: 0
   display-xl:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
-    fontSize: 48px
-    fontWeight: 460
-    lineHeight: 0.96
-    letterSpacing: -1.32px
-  display-lg:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontFamily: "'Airbnb Cereal VF', Circular, -apple-system, system-ui, Roboto, 'Helvetica Neue', sans-serif"
     fontSize: 28px
-    fontWeight: 540
-    lineHeight: 1.14
-    letterSpacing: -0.63px
-  display-md:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontWeight: 700
+    lineHeight: 1.43
+    letterSpacing: 0
+  display-lg:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
     fontSize: 22px
-    fontWeight: 460
-    lineHeight: 1.1
-    letterSpacing: -0.315px
-  heading-lg:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontWeight: 500
+    lineHeight: 1.18
+    letterSpacing: -0.44px
+  display-md:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 21px
+    fontWeight: 700
+    lineHeight: 1.43
+    letterSpacing: 0
+  display-sm:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
     fontSize: 20px
-    fontWeight: 460
-    lineHeight: 1.2
-    letterSpacing: -0.4px
-  body-lg:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
-    fontSize: 18px
-    fontWeight: 540
-    lineHeight: 1.5
-    letterSpacing: -0.135px
-  body-md:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
-    fontSize: 16px
-    fontWeight: 460
-    lineHeight: 1.5
-    letterSpacing: 0
-  body-strong:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
-    fontSize: 18.72px
-    fontWeight: 700
-    lineHeight: 1.5
-    letterSpacing: 0
-  button-md:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
-    fontSize: 16px
-    fontWeight: 700
-    lineHeight: 1.0
-    letterSpacing: 0
-  button-cap:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
-    fontSize: 14px
     fontWeight: 600
-    lineHeight: 1.0
+    lineHeight: 1.20
+    letterSpacing: -0.18px
+  title-md:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 16px
+    fontWeight: 600
+    lineHeight: 1.25
+    letterSpacing: 0
+  title-sm:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 16px
+    fontWeight: 500
+    lineHeight: 1.25
+    letterSpacing: 0
+  rating-display:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 64px
+    fontWeight: 700
+    lineHeight: 1.1
+    letterSpacing: -1px
+  body-md:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 16px
+    fontWeight: 400
+    lineHeight: 1.5
+    letterSpacing: 0
+  body-sm:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 14px
+    fontWeight: 400
+    lineHeight: 1.43
     letterSpacing: 0
   caption:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
     fontSize: 14px
-    fontWeight: 460
-    lineHeight: 1.4
+    fontWeight: 500
+    lineHeight: 1.29
     letterSpacing: 0
-  micro:
-    fontFamily: "'Super Sans VF', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif"
+  caption-sm:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 13px
+    fontWeight: 400
+    lineHeight: 1.23
+    letterSpacing: 0
+  badge:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 11px
+    fontWeight: 600
+    lineHeight: 1.18
+    letterSpacing: 0
+  micro-label:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
     fontSize: 12px
-    fontWeight: 540
-    lineHeight: 1.4
+    fontWeight: 700
+    lineHeight: 1.33
+    letterSpacing: 0
+  uppercase-tag:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 8px
+    fontWeight: 700
+    lineHeight: 1.25
+    letterSpacing: 0.32px
+    textTransform: uppercase
+  button-md:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 16px
+    fontWeight: 500
+    lineHeight: 1.25
+    letterSpacing: 0
+  button-sm:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 14px
+    fontWeight: 500
+    lineHeight: 1.29
+    letterSpacing: 0
+  link:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 14px
+    fontWeight: 400
+    lineHeight: 1.43
+    letterSpacing: 0
+  nav-link:
+    fontFamily: "'Airbnb Cereal VF', Circular, sans-serif"
+    fontSize: 16px
+    fontWeight: 600
+    lineHeight: 1.25
     letterSpacing: 0
 
 rounded:
+  none: 0px
   xs: 4px
-  sm: 6px
-  md: 8px
-  lg: 12px
-  xl: 16px
+  sm: 8px
+  md: 14px
+  lg: 20px
+  xl: 32px
   full: 9999px
 
 spacing:
@@ -107,342 +153,393 @@ spacing:
   xs: 4px
   sm: 8px
   md: 12px
-  lg: 16px
-  xl: 24px
-  xxl: 32px
-  huge: 64px
+  base: 16px
+  lg: 24px
+  xl: 32px
+  xxl: 48px
+  section: 64px
 
 components:
-  button-primary-dark:
+  button-primary:
     backgroundColor: "{colors.primary}"
     textColor: "{colors.on-primary}"
     typography: "{typography.button-md}"
-    rounded: "{rounded.md}"
-    padding: 12px 20px
-  button-primary-dark-pressed:
-    backgroundColor: "{colors.primary-deep}"
+    rounded: "{rounded.sm}"
+    padding: 14px 24px
+    height: 48px
+  button-primary-active:
+    backgroundColor: "{colors.primary-active}"
     textColor: "{colors.on-primary}"
-    typography: "{typography.button-md}"
-    rounded: "{rounded.md}"
-    padding: 12px 20px
-  button-on-dark-pill:
-    backgroundColor: "{colors.surface-violet-soft}"
-    textColor: "{colors.primary}"
-    typography: "{typography.button-md}"
-    rounded: "{rounded.full}"
-    padding: 12px 20px
-  button-secondary-outline:
+    rounded: "{rounded.sm}"
+  button-primary-disabled:
+    backgroundColor: "{colors.primary-disabled}"
+    textColor: "{colors.on-primary}"
+    rounded: "{rounded.sm}"
+  button-secondary:
     backgroundColor: "{colors.canvas}"
     textColor: "{colors.ink}"
     typography: "{typography.button-md}"
-    rounded: "{rounded.md}"
-    padding: 12px 20px
-  button-on-teal:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.surface-teal-deep}"
+    rounded: "{rounded.sm}"
+    padding: 13px 23px
+    height: 48px
+  button-tertiary-text:
+    backgroundColor: transparent
+    textColor: "{colors.ink}"
     typography: "{typography.button-md}"
+  button-pill-rausch:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.on-primary}"
+    typography: "{typography.button-sm}"
+    rounded: "{rounded.full}"
+    padding: 10px 20px
+  search-orb:
+    backgroundColor: "{colors.primary}"
+    textColor: "{colors.on-primary}"
+    rounded: "{rounded.full}"
+    height: 48px
+  icon-button-circle:
+    backgroundColor: "{colors.surface-strong}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.full}"
+    height: 32px
+  icon-button-outline:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    rounded: "{rounded.full}"
+    height: 40px
+  top-nav:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.nav-link}"
+    height: 80px
+  product-tab-active:
+    backgroundColor: transparent
+    textColor: "{colors.ink}"
+    typography: "{typography.nav-link}"
+    rounded: "{rounded.none}"
+  product-tab-inactive:
+    backgroundColor: transparent
+    textColor: "{colors.muted}"
+    typography: "{typography.nav-link}"
+  search-bar-pill:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.full}"
+    padding: 14px 24px
+    height: 64px
+  search-field-segment:
+    backgroundColor: transparent
+    textColor: "{colors.ink}"
+    typography: "{typography.caption}"
+    padding: 8px 24px
+  category-strip:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.muted}"
+    typography: "{typography.button-sm}"
+  category-tab-active:
+    backgroundColor: transparent
+    textColor: "{colors.ink}"
+    typography: "{typography.button-sm}"
+    rounded: "{rounded.none}"
+  property-card:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-sm}"
     rounded: "{rounded.md}"
-    padding: 12px 20px
+  property-card-photo:
+    rounded: "{rounded.md}"
+  experience-card:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.title-md}"
+    rounded: "{rounded.md}"
+  city-link-block:
+    backgroundColor: transparent
+    textColor: "{colors.ink}"
+    typography: "{typography.title-sm}"
+  rating-display-card:
+    backgroundColor: transparent
+    textColor: "{colors.ink}"
+    typography: "{typography.rating-display}"
+  guest-favorite-badge:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.badge}"
+    rounded: "{rounded.full}"
+    padding: 4px 10px
+  new-tag:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.uppercase-tag}"
+    rounded: "{rounded.full}"
+    padding: 2px 6px
+  amenity-row:
+    backgroundColor: transparent
+    textColor: "{colors.ink}"
+    typography: "{typography.body-md}"
+    padding: 12px 0
+  reviews-card:
+    backgroundColor: transparent
+    textColor: "{colors.ink}"
+    typography: "{typography.body-sm}"
+  host-card:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.md}"
+    padding: 24px
+  reservation-card:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.ink}"
+    typography: "{typography.body-md}"
+    rounded: "{rounded.md}"
+    padding: 24px
+  date-picker-day:
+    backgroundColor: transparent
+    textColor: "{colors.ink}"
+    typography: "{typography.body-sm}"
+    rounded: "{rounded.full}"
+  date-picker-day-selected:
+    backgroundColor: "{colors.ink}"
+    textColor: "{colors.on-dark}"
+    rounded: "{rounded.full}"
   text-input:
     backgroundColor: "{colors.canvas}"
     textColor: "{colors.ink}"
     typography: "{typography.body-md}"
     rounded: "{rounded.sm}"
-    padding: 10px 12px
-  card-feature-light:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.lg}"
-    padding: 32px
-  card-pricing:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.lg}"
-    padding: 32px
-  card-pricing-featured:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.lg}"
-    padding: 32px
-  card-teal-band:
-    backgroundColor: "{colors.surface-teal-deep}"
-    textColor: "{colors.on-primary}"
-    typography: "{typography.body-lg}"
-    rounded: "{rounded.lg}"
-    padding: 64px
-  card-feature-row:
-    backgroundColor: "{colors.canvas-soft}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.md}"
-    padding: 24px
-  pill-tab-light:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.button-cap}"
-    rounded: "{rounded.full}"
-    padding: 8px 16px
-  nav-bar-dark:
-    backgroundColor: "{colors.primary}"
-    textColor: "{colors.on-primary}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.xs}"
-    padding: 16px 24px
-  nav-bar-light:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.xs}"
-    padding: 16px 24px
-  link-on-light:
-    backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink}"
-    typography: "{typography.body-md}"
-    rounded: "{rounded.xs}"
-    padding: 0px
+    padding: 14px 12px
+    height: 56px
   footer-light:
     backgroundColor: "{colors.canvas}"
-    textColor: "{colors.ink-mute}"
-    typography: "{typography.caption}"
-    rounded: "{rounded.xs}"
-    padding: 64px 24px
+    textColor: "{colors.ink}"
+    typography: "{typography.body-sm}"
+    padding: 48px 80px
+  footer-link:
+    backgroundColor: transparent
+    textColor: "{colors.ink}"
+    typography: "{typography.body-sm}"
+  legal-band:
+    backgroundColor: "{colors.canvas}"
+    textColor: "{colors.muted}"
+    typography: "{typography.caption-sm}"
 ---
 
 ## Overview
 
-Superhumon's marketing pages open in an editorial dark register: a deep indigo navy `{colors.primary}` (`#1b1938`) canvas overlaid with a soft violet-and-sky atmospheric backdrop and a half-bleed portrait subject (often a person looking off-frame, photographed at twilight). Headlines render in `{typography.display-xxl}` (Super Sans VF at 64px / weight 540) with negative tracking, set in white over the indigo. A single rounded-rectangle CTA button anchors each band — never two, never three.
+Airbnb is the canonical example of a generous, photography-led consumer marketplace. The base canvas is **pure white** (`{colors.canvas}` — #ffffff) with deep near-black ink (`{colors.ink}` — #222222) for headlines and body, and a single voltage of **Rausch** (`{colors.primary}` — #ff385c) carrying every primary CTA, the search-button orb, the heart save state, and inline brand links. There is no secondary brand color in mainline marketing — the **Luxe purple** (`{colors.luxe}` — #460479) and **Plus magenta** (`{colors.plus}` — #92174d) tokens are sub-brand accents that only appear inside Airbnb Luxe / Plus contexts.
 
-The body of every page flips to white. `{colors.canvas}` (`#ffffff`) takes over below the hero, with body type in `{colors.ink}` (`#292827` — a slightly warm dark grey, never pure black) and feature rows alternating between white and `{colors.canvas-soft}` (a barely-tinted off-white). Pricing tiers sit on this white surface; the featured tier inverts to the indigo navy, completing the brand's binary polarity.
+Type runs **Airbnb Cereal VF** (a custom variable font Airbnb licenses), with **Circular** as the historic in-house fallback and a system stack underneath. Cereal sits at modest weights — display headlines render at 22–28px in weight 500–600, not the heavy 700+ weights that financial or enterprise systems lean on. The hero h1 ("Inspiration for future getaways") on the homepage is just 28px / 700, which would feel small on a typical SaaS page; here it works because the layout leans on photography (city collage, property cards) for visual weight rather than typographic muscle.
 
-Every page closes with a **deep-teal CTA band** (`{colors.surface-teal-deep}` — `#0e3030`). The teal is a single chromatic interlude: rich, almost-black green-blue, that breaks up what would otherwise be an indigo/white-only page. The teal band always contains the closing CTA in `{typography.display-lg}` paired with a single white-pill button.
-
-Typography runs **Super Sans VF** — a proprietary variable display sans — at unusual mid-weights (460, 540, 600). The variable axes let the brand pick precise sub-default weights that read as warmer and more human than typical 400/500/700 SaaS scales. Display sizes use negative letter-spacing of -1.32px to -0.315px depending on size; line-heights are unusually tight (0.96 on 48px display).
+The shape language is **soft**. Buttons are 8px radius (`{rounded.sm}`), property cards are ~14px (`{rounded.md}`), the search bar is fully pill-shaped (`{rounded.full}`), wishlist hearts and search orbs are circles (`{rounded.full}`), and category strip rounded corners run at 32px (`{rounded.xl}`). There is essentially no hard corner anywhere except the body grid itself — every interactive element is rounded.
 
 **Key Characteristics:**
-- Three-canvas system: indigo navy (`{colors.primary}`) for hero, white (`{colors.canvas}`) for body, deep teal (`{colors.surface-teal-deep}`) for closing CTA.
-- Half-bleed portrait subject in the hero with violet-sky atmospheric backdrop — the brand uses a person looking off-frame as a recurring visual.
-- Single CTA per band; the marketing pages never crowd actions.
-- Super Sans VF at sub-default weights (460, 540, 600) — the brand's typographic warmth signature.
-- Tight line-heights (0.96) on display sizes — vertical compression as editorial density.
-- Off-warm-grey body ink (`#292827`) — never pure black; the brand's quiet warmth.
-- Pill-shaped on-hero CTA in pale violet (`{colors.surface-violet-soft}`); rounded-rectangle CTAs everywhere else.
+- Single accent color: `{colors.primary}` (#ff385c — "Rausch") carries every primary CTA, the search orb, the heart save state, and the brand wordmark. Used scarcely — most pages are 90% white + ink with one or two Rausch moments.
+- Custom variable type: `Airbnb Cereal VF`. Display weights sit at 500–700, body at 400. Modest weight is intentional — the system trusts photography for visual heft.
+- Three-product top nav: Homes, Experiences, Services — each with a hand-illustrated 32px icon and "NEW" badges (`{component.new-tag}`) on the two newer products. Active tab uses an underline rule (`{component.product-tab-active}`).
+- Pill-shaped global search bar: white surface, fully rounded (`{rounded.full}`), divided by 1px hairlines into Where / When / Who segments, terminated by a circular Rausch search orb (`{component.search-orb}`).
+- Property cards are photo-first: aspect-ratio rectangles with `{rounded.md}` corner clipping, swipeable image carousel, "Guest favorite" floating badge top-left, heart icon top-right, then 4–5 lines of meta beneath.
+- Editorial dropdowns (footer, language picker) are clean text columns over the white canvas — no card surface, no shadow.
+- The design system caps elevation at one shadow tier (`box-shadow: rgba(0,0,0,0.02) 0 0 0 1px, rgba(0,0,0,0.04) 0 2px 6px, rgba(0,0,0,0.1) 0 4px 8px`) — used on hover-floated cards and search/account dropdowns.
+- 8px base spacing system, with major sections at `{spacing.section}` (64px) — generous but not airy enough to feel editorial-magazine; the marketplace density wants more cards per scroll.
 
 ## Colors
 
-> **Source pages:** home (`/`), `/products/go-ai-assistant`, `/contact-sales`, `/plans`.
-
 ### Brand & Accent
-- **Primary Indigo Navy** (`{colors.primary}` — `#1b1938`): The brand's primary surface and CTA color. Hero canvas, filled rounded-rectangle button, featured pricing tier.
-- **Indigo Deep** (`{colors.primary-deep}` — `#0e0c1f`): Pressed-state lift / deeper navy used in hero gradient stops.
-- **Surface Violet Soft** (`{colors.surface-violet-soft}` — `#c9b4fa`): The hero pill-button fill — pale violet over the indigo canvas. Also appears in atmospheric backdrops.
-- **Surface Teal Deep** (`{colors.surface-teal-deep}` — `#0e3030`): The signature closing-CTA band color. Rich green-blue, almost black.
-- **Surface Teal Mid** (`{colors.surface-teal-mid}` — `#155555`): Slightly lifted teal for nested chrome inside the band.
+- **Rausch** (`{colors.primary}` — #ff385c): The single brand color. Used for primary CTA backgrounds (Reserve, Continue), the search orb, the heart save state on property cards, and inline brand links. The most recognizable color in consumer travel.
+- **Rausch Active** (`{colors.primary-active}` — #e00b41): The press / pointer-down variant — slightly more saturated. Used on `{component.button-primary-active}`.
+- **Rausch Disabled** (`{colors.primary-disabled}` — #ffd1da): A pale tint used on disabled CTAs.
+- **Luxe Purple** (`{colors.luxe}` — #460479): Sub-brand accent for Airbnb Luxe. Only appears inside Luxe-branded surfaces — never in mainline marketing.
+- **Plus Magenta** (`{colors.plus}` — #92174d): Sub-brand accent for Airbnb Plus. Same scoping as Luxe — sub-product only.
 
 ### Surface
-- **Canvas** (`{colors.canvas}` — `#ffffff`): Default body background.
-- **Canvas Soft** (`{colors.canvas-soft}` — `#fafaf8`): Barely-warm off-white for alternating feature-row bands.
-- **Hairline** (`{colors.hairline}` — `#e8e4dd`): 1px borders, slightly warm grey.
-- **Hairline Dark** (`{colors.hairline-dark}` — `#3f3a52`): 1px borders on dark surfaces.
+- **Canvas** (`{colors.canvas}` — #ffffff): The default page floor for every public page. Airbnb does not have a dark mode on the public web.
+- **Surface Soft** (`{colors.surface-soft}` — #f7f7f7): The lightest fill — used on disabled fields, sub-nav hover backgrounds, and the inline search filter band.
+- **Surface Strong** (`{colors.surface-strong}` — #f2f2f2): Slightly heavier fill — circular icon-button surface (e.g., the breadcrumb back-arrow and listing toolbar buttons).
+
+### Hairlines & Borders
+- **Hairline** (`{colors.hairline}` — #dddddd): The default 1px border tone — search bar dividers, table separators, footer column splitters, card 1px borders.
+- **Hairline Soft** (`{colors.hairline-soft}` — #ebebeb): A lighter divider used on long-scrolling editorial body separators.
+- **Border Strong** (`{colors.border-strong}` — #c1c1c1): A heavier stroke used on disabled outline buttons and form input outlines after focus.
 
 ### Text
-- **Ink** (`{colors.ink}` — `#292827`): Default body text. Warm dark grey, never pure black.
-- **Ink Mute** (`{colors.ink-mute}` — `#73706d`): Secondary text, captions.
-- **Ink Faint** (`{colors.ink-faint}` — `#9a9794`): Tertiary / disabled text.
-- **On Primary** (`{colors.on-primary}` — `#ffffff`): Text on dark navy / teal surfaces.
-- **On Dark Mute** (`{colors.on-dark-mute}` — translucent white): Secondary text on dark.
-- **On Dark Faint** (`{colors.on-dark-faint}` — translucent white): Tertiary text on dark.
+- **Ink** (`{colors.ink}` — #222222): The dominant text color on light surfaces. Display headlines, body paragraphs, primary nav links, and most inline link text. Never pure black.
+- **Body** (`{colors.body}` — #3f3f3f): A secondary running-text color used inside long-form review and amenity copy where ink would feel too heavy.
+- **Muted** (`{colors.muted}` — #6a6a6a): Sub-titles inside city link blocks ("Cottage rentals", "Villa rentals"), inactive product-tab labels, footer category sub-labels, "View all" links.
+- **Muted Soft** (`{colors.muted-soft}` — #929292): Disabled link text. Used very sparingly.
+- **Star Rating** (`{colors.star-rating}` — #222222): The same ink token — Airbnb's star icon and "4.81" rating numbers all render in ink rather than a yellow/gold color, which is a deliberate brand choice (yellow stars feel cheap in travel context).
+- **On Primary** (`{colors.on-primary}` — #ffffff): White text on Rausch CTAs.
+
+### Semantic
+- **Error** (`{colors.primary-error-text}` — #c13515): Inline error text for form validation. Distinct from Rausch — slightly darker, more saturated red.
+- **Error Hover** (`{colors.primary-error-text-hover}` — #b32505): Darkens on link hover.
+- **Legal Link Blue** (`{colors.legal-link}` — #428bff): Inline links inside legal copy (Privacy, Terms). Only used inside the legal sub-band.
+
+### Scrim
+- **Scrim** (`{colors.scrim}` — #000000 at 50% opacity): The global modal backdrop tone — date picker, login dialog, language picker. Stored as the base hex; opacity is applied at render time.
 
 ## Typography
 
 ### Font Family
+The system runs **Airbnb Cereal VF** for everything — display, body, navigation, captions, microcopy. Fallbacks walk `Circular, -apple-system, system-ui, Roboto, "Helvetica Neue", sans-serif`. **Circular** is the historic in-house typeface still kept as the first non-variable fallback; system stacks back it up.
 
-The display and UI tier is **Super Sans VF** — a proprietary variable sans (variable axes for weight, with the brand using sub-default 460 / 540 / 600 weights). Fallback chain is the system font stack.
-
-For substitution use **Inter Variable** (open-source) at weight 460 / 540 / 600 — Inter's variable axes match Super Sans VF's behavior closely. Avoid fixed-weight Inter at 400 / 500 / 600 — the brand specifically picks the in-between weights.
+There is no separate display family. The variable font carries the entire scale.
 
 ### Hierarchy
 
 | Token | Size | Weight | Line Height | Letter Spacing | Use |
 |---|---|---|---|---|---|
-| `{typography.display-xxl}` | 64px | 540 | 0.96 | 0 | Hero headline |
-| `{typography.display-xl}` | 48px | 460 | 0.96 | -1.32px | Section opener on light surfaces |
-| `{typography.display-lg}` | 28px | 540 | 1.14 | -0.63px | Sub-section / feature title |
-| `{typography.display-md}` | 22px | 460 | 1.1 | -0.315px | Card title |
-| `{typography.heading-lg}` | 20px | 460 | 1.2 | -0.4px | Compact card title |
-| `{typography.body-lg}` | 18px | 540 | 1.5 | -0.135px | Marketing body lead |
-| `{typography.body-md}` | 16px | 460 | 1.5 | 0 | Default UI body |
-| `{typography.body-strong}` | 18.72px | 700 | 1.5 | 0 | Emphasized body |
-| `{typography.button-md}` | 16px | 700 | 1.0 | 0 | Rounded-rectangle button label |
-| `{typography.button-cap}` | 14px | 600 | 1.0 | 0 | Compact button label |
-| `{typography.caption}` | 14px | 460 | 1.4 | 0 | Helper, footnote |
-| `{typography.micro}` | 12px | 540 | 1.4 | 0 | Pill label, fine print |
+| `{typography.rating-display}` | 64px | 700 | 1.1 | -1px | Listing detail rating display ("4.81") |
+| `{typography.display-xl}` | 28px | 700 | 1.43 | 0 | Homepage h1 ("Inspiration for future getaways") |
+| `{typography.display-lg}` | 22px | 500 | 1.18 | -0.44px | Listing detail h1 ("Close to Fethiye Aliyah Bali Beach…") |
+| `{typography.display-md}` | 21px | 700 | 1.43 | 0 | Section heads inside listing detail ("What this place offers") |
+| `{typography.display-sm}` | 20px | 600 | 1.20 | -0.18px | Sub-section titles ("Things to know") |
+| `{typography.title-md}` | 16px | 600 | 1.25 | 0 | City link block titles ("Wilmington", "Athens") |
+| `{typography.title-sm}` | 16px | 500 | 1.25 | 0 | Footer column heads ("Support", "Hosting", "Airbnb") |
+| `{typography.body-md}` | 16px | 400 | 1.5 | 0 | Default running-text inside listing copy |
+| `{typography.body-sm}` | 14px | 400 | 1.43 | 0 | Card meta lines, dates, prices, distance text |
+| `{typography.caption}` | 14px | 500 | 1.29 | 0 | Search field segment labels ("Where", "When", "Who") |
+| `{typography.caption-sm}` | 13px | 400 | 1.23 | 0 | Footer legal line ("© 2026 Airbnb, Inc.") |
+| `{typography.badge}` | 11px | 600 | 1.18 | 0 | "Guest favorite" floating badge text |
+| `{typography.micro-label}` | 12px | 700 | 1.33 | 0 | Card amenity micro-labels ("Inline 6") |
+| `{typography.uppercase-tag}` | 8px | 700 | 1.25 | 0.32px (uppercase) | "NEW" badge on product nav tabs |
+| `{typography.button-md}` | 16px | 500 | 1.25 | 0 | Primary CTA button labels |
+| `{typography.button-sm}` | 14px | 500 | 1.29 | 0 | Pill button labels (category strip) |
+| `{typography.link}` | 14px | 400 | 1.43 | 0 | Inline body links |
+| `{typography.nav-link}` | 16px | 600 | 1.25 | 0 | Top product-nav labels (Homes, Experiences, Services) |
 
 ### Principles
-- **Sub-default weights.** The brand picks 460 / 540 / 600 instead of 400 / 500 / 700 — a quiet warmth in the typography that distinguishes it from default SaaS systems.
-- **Tight display leading.** 0.96 on 48–64px display — the type stacks unusually compact.
-- **Negative tracking on display sizes.** -1.32px at 48px scaling proportionally — tightens the variable letterforms into editorial density.
+Display weights stay modest. The homepage h1 at 28px / 700 is deliberately small — it tucks under the search bar so photography and the city-link grid carry visual hierarchy. The listing-detail h1 at 22px / 500 is even quieter; the listing photo banner does the work above it.
+
+The single typographically loud moment in the entire system is the **rating display** (`{typography.rating-display}` — 64px / 700) on listing pages. That is the only place the system trusts type alone to carry hierarchy — rating numbers are a peak trust signal, so they get the loudest treatment.
 
 ### Note on Font Substitutes
-**Inter Variable** (open-source via Google Fonts) is the recommended substitute. Set `font-variation-settings: "wght" 540` for display, 460 for body — Inter's variable axes match. Avoid fixed-weight Inter; the in-between weights are the brand's signature.
+If Airbnb Cereal VF and Circular are unavailable, **Inter** is the closest open-source substitute. Adjust display headlines down by ~2% in line-height to match Cereal's slightly tighter cap height; otherwise the proportions transfer cleanly.
 
 ## Layout
 
 ### Spacing System
-- **Base unit**: 8px (with 2 / 4 / 12 sub-tokens for fine work).
-- **Tokens**: `{spacing.xxs}` 2px · `{spacing.xs}` 4px · `{spacing.sm}` 8px · `{spacing.md}` 12px · `{spacing.lg}` 16px · `{spacing.xl}` 24px · `{spacing.xxl}` 32px · `{spacing.huge}` 64px.
-- **Section padding**: 64–96px on most sections; closing teal band uses 96–128px for editorial weight.
-- **Card internal padding**: 32px on pricing cards; 24px on alternating feature rows.
+- **Base unit:** 4px (with 2px micro-step).
+- **Tokens:** `{spacing.xxs}` 2px · `{spacing.xs}` 4px · `{spacing.sm}` 8px · `{spacing.md}` 12px · `{spacing.base}` 16px · `{spacing.lg}` 24px · `{spacing.xl}` 32px · `{spacing.xxl}` 48px · `{spacing.section}` 64px.
+- **Section padding (vertical):** `{spacing.section}` (64px) for major page bands; tighter than typical SaaS marketing (80–96px) because marketplace pages need higher card density per scroll.
+- **Card internal padding:** `{spacing.lg}` (24px) for `{component.host-card}` and `{component.reservation-card}`; `{spacing.base}` (16px) for property-card meta block; `{spacing.sm}` (8px) for caption / date-row gutters.
+- **Gutters:** `{spacing.base}` (16px) between cards in the homepage city grid; `{spacing.lg}` (24px) inside footer column gutters; `{spacing.xs}` (4px) on dense category-strip dividers.
 
 ### Grid & Container
-- Hero spans full viewport width with the violet-sky backdrop edge-to-edge; content centers in a ~960px column.
-- Body content centers in ~960–1100px.
-- Pricing collapses 3-up → 2-up → 1-up at 1024 / 768 breakpoints.
+- **Max content width:** ~1280px centered on the homepage and editorial pages. Listing detail pages cap closer to 1080px to keep the photo banner and reservation rail readable.
+- **City link grid (homepage footer):** 6-column grid at desktop with each cell housing a city name in `{typography.title-md}` and a category sub-label in `{typography.body-sm}` muted.
+- **Listing detail:** 2-column with photo / amenity body on the left (~64% width) and a sticky reservation card (`{component.reservation-card}`) on the right (~32%).
+- **Footer:** 3-column link list (Support / Hosting / Airbnb) at desktop, collapsing to 1-column on mobile.
 
 ### Whitespace Philosophy
-The brand uses generous editorial whitespace on both polarities — dark hero and white body. Section gaps tend toward 96px; the teal closing band gets up to 128px of vertical air. The whitespace itself is part of the brand's "considered, slow-tempo" feel.
+The system gives editorial bands 64px of vertical breathing room but compresses card grids — property and city-link cards sit just 16px apart. The contrast is intentional: the page reads as "open hero, dense marketplace below," reinforcing the marketplace nature without overwhelming the visitor at the fold.
 
-## Elevation & Depth
+## Elevation
 
-| Level | Treatment | Use |
-|---|---|---|
-| 0 | Flat | Default surface |
-| 1 | `box-shadow: 0 1px 3px rgba(0,0,0,0.08)` | Subtle card lift |
-| 2 | `box-shadow: 0 8px 24px rgba(0,0,0,0.12)` | Floating panels, modals |
-| 3 | Atmospheric backdrop (violet-sky over indigo) | The hero's depth medium |
+The system has essentially **one shadow tier** plus the flat baseline.
 
-### Decorative Depth
-The hero's depth is the **violet-sky atmospheric backdrop** — a soft indigo-to-violet-to-sky-blue radial wash that sits behind the portrait subject. Implemented as a CSS radial gradient or large background image. Below the hero, depth is minimal — the white canvas is flat.
+- **Flat (no shadow):** Body, hero, footer, all editorial bands — 95% of surfaces.
+- **Card hover float:** `box-shadow: rgba(0, 0, 0, 0.02) 0 0 0 1px, rgba(0, 0, 0, 0.04) 0 2px 6px 0, rgba(0, 0, 0, 0.1) 0 4px 8px 0` — applied to property cards on pointer hover, the search bar at rest, and the dropdown menus (account menu, language picker, date picker). This is the single shadow definition in the entire system.
+- **Modal scrim:** `{colors.scrim}` rendered at 50% opacity — the global modal backdrop. Used on date pickers, login dialogs, language picker.
 
-## Shapes
-
-### Border Radius Scale
-
-| Token | Value | Use |
-|---|---|---|
-| `{rounded.xs}` | 4px | Hairline tags |
-| `{rounded.sm}` | 6px | Form inputs |
-| `{rounded.md}` | 8px | Buttons (the brand's signature button shape — rounded rectangle, never pill) |
-| `{rounded.lg}` | 12px | Pricing cards, feature cards |
-| `{rounded.xl}` | 16px | Modal dialogs, large feature cards |
-| `{rounded.full}` | 9999px | Pill tabs in feature row, hero CTA |
-
-### Photography Geometry
-The hero uses **half-bleed portrait subjects** — a person photographed at twilight, looking off-frame, occupying the right half of the hero. The portrait extends edge-to-edge vertically and stops mid-canvas horizontally; type sits on the left side. Other photography is rare; product UI mockups handle most other illustrative needs.
+There are no progressive elevation tiers — the system either has the one shadow or none. Depth comes from photography, the white-on-white surface separation, and rounded-corner clipping rather than from layered shadows.
 
 ## Components
 
 ### Buttons
 
-**`button-primary-dark`** — the dominant rounded-rectangle CTA on white surfaces.
-- Background `{colors.primary}`, text `{colors.on-primary}`, type `{typography.button-md}`, padding `{spacing.md} {spacing.xl}` (12px 20px), rounded `{rounded.md}` 8px.
-- Pressed state `button-primary-dark-pressed` shifts to `{colors.primary-deep}`.
+**`button-primary`** — Rausch fill, white text, 8px radius, 14×24px padding, 48px height, weight 500. The most common CTA across the system: "Reserve", "Continue", "Search", account-flow primaries.
 
-**`button-on-dark-pill`** — the hero CTA in pale violet pill shape.
-- Background `{colors.surface-violet-soft}`, text `{colors.primary}`, same typography, padding 12px 20px, rounded `{rounded.full}`. The pill shape only appears on the hero — body CTAs use the rounded rectangle.
+**`button-primary-active`** — The press state. Background flips to `{colors.primary-active}`. No transform, no shadow change.
 
-**`button-secondary-outline`** — outline alternative on white.
-- Background `{colors.canvas}`, text `{colors.ink}`, 1px solid `{colors.hairline-dark}` border, same shape as `button-primary-dark`.
+**`button-primary-disabled`** — Pale Rausch tint at #ffd1da with white text. Cursor not-allowed.
 
-**`button-on-teal`** — CTA inside the closing teal band.
-- Background `{colors.canvas}`, text `{colors.surface-teal-deep}`, rounded-rectangle, same typography.
+**`button-secondary`** — White fill with ink text and a 1px ink outline. 8px radius. Used for "Save", "Cancel", and inverse CTAs over Rausch surfaces.
 
-### Cards & Containers
+**`button-tertiary-text`** — Plain ink text, no surface, no border. Underlined on hover. Used for "Show more" type links and modal close labels.
 
-**`card-feature-light`** — feature card on white.
-- Background `{colors.canvas}`, padding `{spacing.xxl}`, rounded `{rounded.lg}`, 1px `{colors.hairline}` border.
+**`button-pill-rausch`** — A pill-shaped Rausch CTA used on featured cells (e.g., "Become a host" sub-CTA) — 9999px radius, 10×20px padding, 14px label.
 
-**`card-pricing`** — standard pricing tier card.
-- Background `{colors.canvas}`, padding `{spacing.xxl}`, rounded `{rounded.lg}`, 1px `{colors.hairline}` border.
+### Search Surface
 
-**`card-pricing-featured`** — inverted indigo featured tier.
-- Background `{colors.primary}`, text `{colors.on-primary}`, otherwise identical to `card-pricing`.
+**`search-bar-pill`** — The signature global search bar. White fill, 9999px radius, 64px height, 1px hairline 1px-shadow border. Internally divided by vertical hairline rules into `{component.search-field-segment}` cells (Where / When / Who). Each segment holds an uppercase caption label above a placeholder line in `{typography.caption}`.
 
-**`card-teal-band`** — the closing CTA band on every page.
-- Background `{colors.surface-teal-deep}`, text `{colors.on-primary}`, padding `{spacing.huge}` 64px, rounded `{rounded.lg}` 12px (often radius-less in practice when full-bleed). Holds a single closing headline in `{typography.display-lg}` and a `button-on-teal`.
+**`search-orb`** — The circular Rausch orb terminating the right edge of the search bar. 48×48px, fully rounded, white magnifying-glass icon centered. The hottest single color moment on the homepage.
 
-**`card-feature-row`** — alternating feature-row card on the body.
-- Background `{colors.canvas-soft}`, text `{colors.ink}`, padding `{spacing.xl}` 24px, rounded `{rounded.md}` 8px. Used in pairs/triplets to explain features below the hero.
+### Top Navigation
 
-### Inputs & Forms
+**`top-nav`** — White surface, 80px height, 1px bottom hairline. The Airbnb wordmark sits flush left, the three product tabs (Homes / Experiences / Services) sit in the dead center, and account utilities (host link, language globe, account menu) sit flush right.
 
-**`text-input`** — standard form input.
-- Background `{colors.canvas}`, text `{colors.ink}`, type `{typography.body-md}`, padding `{spacing.sm}+ {spacing.md}` (10px 12px), rounded `{rounded.sm}` 6px, 1px `{colors.hairline}` border.
+**`product-tab-active`** — Ink label in `{typography.nav-link}`, 32px hand-illustrated icon, 2px ink underline rule beneath the icon-label pair.
 
-### Navigation
+**`product-tab-inactive`** — Muted label, illustrated icon, no underline. Becomes active on click.
 
-**`nav-bar-dark`** — top nav over the indigo hero.
-- Background `{colors.primary}`, text `{colors.on-primary}`, padding `{spacing.lg} {spacing.xl}`. Logo on the left, nav center, "Get Started" `button-on-dark-pill` on the right.
+**`new-tag`** — A tiny rounded-pill badge (`{rounded.full}`) anchored top-right of an icon, carrying the uppercase "NEW" label in `{typography.uppercase-tag}` (8px / 700 with 0.32px tracking, uppercase). Used on Experiences and Services to signal recency.
 
-**`nav-bar-light`** — top nav on body / pricing pages.
-- Background `{colors.canvas}`, text `{colors.ink}`, otherwise same structure with `button-primary-dark` on the right.
+### Listing Cards
 
-### Pills, Tags, and Chips
+**`property-card`** — A photo-first card. 1:1 aspect-ratio image with `{rounded.md}` corner clipping, image carousel dots overlay, "Guest favorite" floating badge top-left (`{component.guest-favorite-badge}`), and a heart icon top-right (`{component.icon-button-circle}` in default outlined state, Rausch-filled when saved). Beneath the image: 4–5 lines of meta — title (`{typography.title-md}`), distance / dates (`{typography.body-sm}` muted), and price ("$X night") right-aligned.
 
-**`pill-tab-light`** — feature-row tab selector.
-- Background `{colors.canvas}`, text `{colors.ink}`, type `{typography.button-cap}`, padding `{spacing.sm} {spacing.lg}`, rounded `{rounded.full}`. Used in the feature category picker (Mail / Channels / Code / AI / Calendar etc.) below the hero.
+**`property-card-photo`** — The photo plate itself, separated as a token because some surfaces (wishlist, search results) reuse just the photo without the meta block.
 
-### Signature Components
+**`experience-card`** — A taller-aspect card (4:5) for experience listings. Same `{rounded.md}` clipping, floating "NEW" badge top-left, heart top-right, and a single-line title beneath.
 
-**Half-Bleed Portrait Hero** — a person photographed at twilight, occupying the right half of the indigo hero with violet-sky atmospheric backdrop behind. Type and CTA sit on the left side. The portrait is the brand's recurring visual signature.
+**`guest-favorite-badge`** — White rounded pill (`{rounded.full}`) at 11px / 600 weight. Sits over the photo with the system's only shadow tier applied for elevation.
 
-**Closing Teal Band** — every page closes with a `card-teal-band` containing a `{typography.display-lg}` closing headline and a single `button-on-teal`. The teal is the page's resolving chord.
+### Listing Detail
 
-**`link-on-light`** — inline links on body.
-- Text `{colors.ink}` rendered in `{typography.body-md}` with persistent underline.
+**`rating-display-card`** — The signature listing-detail moment. A 64px / 700 rating number ("4.81") flanked left and right by tiny laurel-wreath SVG ornaments. Beneath the rating: "Guest favorite" tagline and a row of ink stat columns. The largest typographic weight in the whole system.
 
-**`footer-light`** — site-wide footer.
-- Background `{colors.canvas}`, text `{colors.ink-mute}`, type `{typography.caption}`, padding `{spacing.huge} {spacing.xl}` (64px 24px). Holds 4 columns of link groups, social icons, and a small legal/copyright row.
+**`amenity-row`** — A 1-column list of amenity icons + ink labels in `{typography.body-md}`. 12px row padding, no border between rows; section is closed by a 1px hairline divider above and below.
 
-## Do's and Don'ts
+**`reviews-card`** — A 2-column grid of review excerpts. Each column holds an author row (avatar, name, date) above a 3-line excerpt with "Show more" tertiary link.
 
-### Do
-- Pair every hero with the violet-sky atmospheric backdrop and a half-bleed portrait subject when possible.
-- Render display tiers at sub-default weights (460 / 540) — the warmth is the typographic signature.
-- Use rounded-rectangle CTAs at 8px radius everywhere except the hero (where pill-shaped is the rule).
-- Close every marketing page with a deep-teal CTA band.
-- Use warm dark grey `{colors.ink}` for body text — never pure black.
-- Apply tight 0.96 line-height on display sizes; the editorial compression is the brand.
+**`host-card`** — A white card with `{rounded.md}` rounding and 24px padding holding a host avatar, name, "Superhost" badge, response-rate stat, and a "Contact host" `{component.button-secondary}`.
 
-### Don't
-- Don't use pill-shaped buttons in the body of the page; the pill is hero-only.
-- Don't bump display weight above 540 unless using `body-strong` (700) for emphasized inline body.
-- Don't render body text in pure black — the warm grey `#292827` is part of the brand.
-- Don't omit the closing teal band — every marketing page closes with it.
-- Don't introduce additional accent colors beyond indigo, violet-soft, teal, and the off-warm-greys.
+**`reservation-card`** — The sticky right-rail card on listing detail pages. White surface, `{rounded.md}` rounding, 1px hairline border, 1px shadow tier elevation, 24px padding. Contains: nightly price (`{typography.display-md}` ink), date-range selector, guest-count stepper, "Reserve" primary CTA full-width, and a fee breakdown stack beneath in `{typography.body-sm}`.
+
+### Date Picker
+
+**`date-picker-day`** — A 40×40px circular cell carrying the day number in `{typography.body-sm}`. Default state is transparent fill, ink text.
+
+**`date-picker-day-selected`** — Ink fill, white text, full circle (`{rounded.full}`). Range states between two selected days carry a `{colors.surface-soft}` lozenge background that connects them.
+
+### Forms
+
+**`text-input`** — White surface, 1px hairline outline, `{rounded.sm}` 8px radius, 56px height, 14×12px padding. Stacked label above (in `{typography.caption}` muted), placeholder text in `{typography.body-md}` muted. On focus, the border thickens to 2px ink and the border color flips to `{colors.ink}` — no glow, no ring.
+
+### Footer
+
+**`footer-light`** — White surface (matches the page canvas — Airbnb has no contrast footer), 48×80px padding. Three columns of link blocks (Support / Hosting / Airbnb), separated by generous 24px gutters. Each column heads with a `{typography.title-sm}` ink label and stacks `{component.footer-link}` rows in `{typography.body-sm}` ink.
+
+**`legal-band`** — A bottom strip beneath the footer columns carrying the copyright line, language picker (globe icon + "English (US)" link), currency picker, and social icons (Facebook, X, Instagram). All text in muted `{colors.muted}` at `{typography.caption-sm}`.
 
 ## Responsive Behavior
 
-### Breakpoints
-
 | Name | Width | Key Changes |
 |---|---|---|
-| Wide | ≥ 1440px | Half-bleed portrait at full scale; teal band 128px tall |
-| Desktop | 1024–1440px | Default content max-width; pricing 3-up |
-| Tablet | 768–1023px | Pricing 2-up; portrait crops tighter |
-| Mobile | < 768px | Pricing 1-up; hamburger nav; display drops 64 → 36px |
+| Mobile | < 744px | Top nav collapses to logo + hamburger; product tabs hide behind a sheet; search bar collapses to a single tappable pill; property cards stack 1-up; city grid 1-column; listing detail collapses reservation card to a sticky bottom bar. |
+| Tablet | 744–1128px | Top nav keeps product tabs but search bar narrows; property cards 2-up; city grid 2–3 column; reservation card stays sticky right-rail at narrower width. |
+| Desktop | 1128–1440px | Full top nav with three product tabs centered; search bar at full pill width with all 3 segments visible; property cards 4-up; city grid 6-column; listing detail 2-column with reservation rail. |
+| Wide | > 1440px | Content width caps at 1440px on listing/search pages and ~1280px on editorial; gutters absorb the rest. |
 
 ### Touch Targets
-- Buttons hit ≥ 44×44px on mobile via 12px vertical padding × 16px line-height. WCAG AAA.
-- Form fields stay at the 44px minimum height.
+- Primary CTAs at minimum 48×48px (above WCAG AAA).
+- Search orb is 48×48px circular — the most-tapped element on the page.
+- Heart save button is 32×32px circular — borderline for AAA but compensated by a generous 12px padding inside the photo card.
+- Date-picker day cells are 40×40px circular.
 
 ### Collapsing Strategy
-- Display tiers stair-step 64 → 48 → 36 → 28 → 22px.
-- Half-bleed portrait crops to head-and-shoulders on mobile; atmospheric backdrop simplifies.
-- Pricing tiers stair-step 3-up → 2-up → 1-up.
-- Top nav collapses to hamburger below 768px.
-- Closing teal band reduces vertical padding from 128 → 64px on mobile.
+- Top product tabs collapse into a hamburger sheet below 744px.
+- Search bar's 3 segments collapse into a single-tap entry that opens a full-screen search overlay on mobile.
+- Property and city-link grids drop column counts cleanly at each breakpoint — never reflow rows; always reduce columns.
+- Reservation card on listing detail switches from sticky right-rail to a sticky bottom bar on mobile, carrying just the "Reserve" CTA + nightly price summary.
 
-### Image Behavior
-Hero portrait uses `srcset` with desktop / mobile crops — desktop favors the full half-bleed composition; mobile crops to head-and-shoulders.
+## Known Gaps
 
-## Iteration Guide
-
-1. Focus on ONE component at a time.
-2. Reference component names and tokens directly.
-3. Run `npx @google/design.md lint DESIGN.md` after edits.
-4. Default body to `{typography.body-md}`; reserve `{typography.body-lg}` for marketing leads.
-5. Keep the three-canvas rhythm (indigo / white / teal) — adding a fourth canvas color breaks the system.
-6. The closing teal band is non-negotiable — every marketing page resolves there.
+- **Hover state colors:** intentionally not documented per the global no-hover policy — Airbnb's actual `:hover` styling for property cards is a subtle elevation lift, but precise extraction is unreliable.
+- **Loading states / skeleton screens:** not visible on the extracted surfaces.
+- **Map view styling:** the search-results map uses Mapbox-tinted tiles with custom Rausch markers; not captured here.
+- **Form input error states:** error text color (`{colors.primary-error-text}`) is documented, but the full input outline + helper-text combination on validation failure was not visible in the captured surfaces.
+- **Sub-brand palettes:** Luxe (`{colors.luxe}`) and Plus (`{colors.plus}`) are documented as tokens, but their full sub-system (typography overrides, surface treatment) lives on separate sub-domains and is not captured here.

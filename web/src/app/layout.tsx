@@ -1,22 +1,9 @@
 import type { Metadata } from "next";
-import { Poppins, Roboto, Inconsolata } from "next/font/google";
+import { Inter } from "next/font/google";
 import "./globals.css";
 
-const poppins = Poppins({
-  variable: "--font-poppins",
-  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
-  subsets: ["latin"],
-});
-
-const roboto = Roboto({
-  variable: "--font-roboto",
-  weight: ["100", "300", "400", "500", "700", "900"],
-  subsets: ["latin"],
-});
-
-const inconsolata = Inconsolata({
-  variable: "--font-inconsolata",
-  weight: ["200", "300", "400", "500", "600", "700", "800", "900"],
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
 });
 
@@ -29,7 +16,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html
       lang="en"
-      className={`${poppins.variable} ${roboto.variable} ${inconsolata.variable} h-full antialiased`}
+      className={`${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col font-sans bg-background text-text">{children}</body>
     </html>

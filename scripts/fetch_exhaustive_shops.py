@@ -37,10 +37,24 @@ FIELD_MASK = (
     "places.accessibilityOptions"
 )
 
-# Categories and keywords to search for
-KEYWORDS = [
-    "shops", "stores", "supermarket"
-]
+def get_keywords_from_db() -> List[str]:
+    db_path = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'leads.sqlite')
+    try:
+        import sqlite3
+        conn = sqlite3.connect(db_path)
+        cursor = conn.cursor()
+        cursor.execute("SELECT keyword FROM keywords")
+        rows = cursor.fetchall()
+        conn.close()
+        keywords = [row[0] for row in rows]
+        if not keywords:
+            return ["shops", "stores"] # fallback
+        return keywords
+    except Exception as e:
+        print(f"Error fetching keywords: {e}")
+        return ["shops", "stores"] # fallback
+
+KEYWORDS = get_keywords_from_db()
 
 def fetch_places(query: str, api_key: str) -> List[Dict]:
     url = "https://places.googleapis.com/v1/places:searchText"
@@ -160,30 +174,30 @@ def main(pincode: str = "627117"):
         # Additional Fields for the new Schema
         place_url = place.get("googleMapsUri", "N/A")
         social_media = "N/A" # Not provided natively by this API endpoint
-        
+
         photos = place.get("photos", [])
         featured_image_url = photos[0].get("name", "N/A") if photos else "N/A"
-        
+
         reservation_url = str(place.get("reservable", "N/A"))
         number_of_reviews = place.get("userRatingCount", 0)
         number_of_images = len(photos)
-        
+
         price_level = place.get("priceLevel", "N/A")
-        
+
         import json
-        
+
         opening_hours_dict = place.get("regularOpeningHours", {})
         opening_hours = json.dumps(opening_hours_dict.get("weekdayDescriptions", [])) if opening_hours_dict else "[]"
-        
+
         payment_options = place.get("paymentOptions", {})
         payment_types = json.dumps(payment_options) if payment_options else "{}"
-        
+
         accessibility_options = place.get("accessibilityOptions", {})
         accessibility = json.dumps(accessibility_options) if accessibility_options else "{}"
-        
+
         service_options = "N/A" # Kept generic as features aren't always present
         highlights = about # We already extracted editorial summary for about
-        
+
         lead_data = {
             "pincode": PINCODE,
             "place_id": place_id,
