@@ -109,6 +109,128 @@ async def stream_leads(pincode: str):
     """
     return StreamingResponse(run_fetch_script(pincode), media_type="text/event-stream")
 
+@app.get(
+    "/leads",
+    summary="Get All Leads",
+    tags=["Leads"]
+)
+async def get_leads():
+    """
+    Returns all leads stored in the SQLite database, grouped by pincode.
+    """
+    import sqlite3
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM leads")
+        rows = cursor.fetchall()
+        conn.close()
+        
+        # Group by pincode
+        grouped_leads = {}
+        for row in rows:
+            lead = dict(row)
+            pincode = lead.get("pincode", "Unknown")
+            if pincode not in grouped_leads:
+                grouped_leads[pincode] = []
+            grouped_leads[pincode].append(lead)
+            
+        return {"grouped_leads": grouped_leads, "total_leads": len(rows)}
+    except sqlite3.OperationalError:
+        return {"grouped_leads": {}, "total_leads": 0, "message": "Database not found or initialized yet."}
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.get(
+    "/leads/{place_id}",
+    summary="Get a Specific Lead",
+    tags=["Leads"]
+)
+async def get_lead(place_id: str):
+    """
+    Returns the details of a specific lead by place_id.
+    """
+    import sqlite3
+    from fastapi import HTTPException
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM leads WHERE place_id = ?", (place_id,))
+        row = cursor.fetchone()
+        conn.close()
+        if row:
+            return dict(row)
+        else:
+            raise HTTPException(status_code=404, detail="Lead not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+class KeywordRequest(BaseModel):
+    keyword: str
+
+@app.get(
+    "/keywords",
+    summary="Get All Keywords",
+    tags=["Keywords"]
+)
+async def get_keywords():
+    """
+    Returns all keywords stored in the SQLite database.
+    """
+    import sqlite3
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("SELECT * FROM keywords")
+        rows = cursor.fetchall()
+        conn.close()
+        return [dict(row) for row in rows]
+    except sqlite3.OperationalError:
+        return []
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.post(
+    "/keywords",
+    summary="Add a Keyword",
+    tags=["Keywords"]
+)
+async def add_keyword(request: KeywordRequest):
+    import sqlite3
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO keywords (keyword) VALUES (?)", (request.keyword,))
+        conn.commit()
+        keyword_id = cursor.lastrowid
+        conn.close()
+        return {"id": keyword_id, "keyword": request.keyword}
+    except sqlite3.IntegrityError:
+        return {"error": "Keyword already exists"}
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.delete(
+    "/keywords/{keyword_id}",
+    summary="Delete a Keyword",
+    tags=["Keywords"]
+)
+async def delete_keyword(keyword_id: int):
+    import sqlite3
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        cursor = conn.cursor()
+        cursor.execute("DELETE FROM keywords WHERE id = ?", (keyword_id,))
+        conn.commit()
+        conn.close()
+        return {"status": "success"}
+    except Exception as e:
+        return {"error": str(e)}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

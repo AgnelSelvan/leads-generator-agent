@@ -1,65 +1,86 @@
 # Leads Generator Agent
 
-A Python-based open-source ADK agent designed to generate local business leads based on geographic pincodes and automate personalized outreach.
+A conversational ADK-powered AI agent and full-stack web dashboard designed to discover local business leads based on geographic pincodes and organize them for personalized outreach.
 
 ## 🚀 Features
 
-- **Pincode-Based Discovery**: Scrape and gather public business information and contact details from the internet using localized pincodes.
-- **Personalized Message Generation**: Dynamically generate tailored outreach messages based on the lead's profile, business name, and industry.
-- **OpenWA Integration**: Automate the delivery of personalized direct messages (DMs) to leads on WhatsApp using the OpenWA library.
-- **Export & Manage**: Save generated leads to CSV/JSON formats for CRM integration.
+- **Conversational AI Agent**: Chat with the Google ADK agent to dynamically extract target contexts and trigger lead generation naturally.
+- **Next.js Web Dashboard**: A modern, responsive React interface to chat with the agent and view all your generated leads visually grouped by pincode.
+- **Pincode-Based Discovery**: Scrapes and gathers exhaustive local business information, formatting phone numbers and emails automatically via Google Maps.
+- **Personalized Message Generation**: Dynamically crafts tailored WhatsApp outreach messages based on the lead's business category and profile.
+- **SQLite Persistence**: Organizes all leads robustly in a local `leads.sqlite` database.
 
 ## 📋 Prerequisites
 
 To run this project, you will need:
-- **Python 3.8+** (for the lead generation and message generation logic)
-- **Node.js** (required to run the OpenWA backend)
-- **Chrome/Chromium** browser (for web scraping and OpenWA session handling)
-- An active WhatsApp account (to scan the OpenWA QR code)
+- **Python 3.8+** (for the FastAPI backend, ADK agent, and lead generation script)
+- **Node.js** (for running the Next.js web dashboard frontend)
+- A **Google Maps API Key** (for data fetching)
+- A **Gemini API Key** (for the ADK Agent reasoning)
 
 ## 🛠️ Installation
 
 1. **Clone the repository:**
    ```bash
-   git clone https://github.com/yourusername/leads-generator.git
-   cd leads-generator
+   git clone https://github.com/Smart-Bill-Book/leads-generator-agent.git
+   cd leads-generator-agent
    ```
 
-2. **Set up the Python Virtual Environment:**
+2. **Set up the Environment Variables:**
+   Rename `.env.example` to `.env` and fill in your API keys:
+   ```env
+   GOOGLE_MAPS_API_KEY="your_maps_key_here"
+   GEMINI_API_KEY="your_gemini_key_here"
+   ```
+
+3. **Set up the Python Backend:**
    ```bash
    python -m venv venv
    source venv/bin/activate  # On Windows use: .\venv\Scripts\activate
    pip install -r requirements.txt
    ```
 
-3. **Set up OpenWA:**
-   Navigate to the OpenWA directory (if separated) and install the Node.js dependencies:
+4. **Set up the Next.js Frontend:**
    ```bash
-   npm install @open-wa/wa-automate
+   cd web
+   npm install
+   cd ..
    ```
 
 ## 💻 Usage
 
-The project features a single entry point `main.py` for simplicity.
+The easiest way to run the full stack (both the Python backend and Next.js frontend) is using the provided launch scripts.
 
-1. **Run the Fetcher directly (CLI):**
-   You can fetch leads for a specific pincode directly via the command line. This will store the leads directly into `leads.sqlite`.
-   ```bash
-   python main.py fetch 10001
-   ```
+**On Windows:**
+Simply double-click `start.bat` or run:
+```powershell
+.\start.bat
+```
 
-2. **Start the API Server (SSE):**
-   Run the FastAPI server which exposes an SSE endpoint `/stream_leads?pincode={pincode}`.
-   ```bash
-   python main.py serve
-   ```
-   *(Optional)* You can define host and port: `python main.py serve --host 127.0.0.1 --port 8000`
+**On Linux / macOS:**
+```bash
+chmod +x start.sh
+./start.sh
+```
+
+This will spin up both the FastAPI backend on port `8000` and the Next.js Dashboard on port `3000`. You can access the UI by opening `http://localhost:3000` in your web browser.
+
+### Advanced CLI Usage (Backend Only)
+If you only want to use the backend tools without the UI:
+
+- **Run the Fetcher directly:**
+  ```bash
+  python main.py fetch 10001
+  ```
+- **Start the API Server manually:**
+  ```bash
+  python main.py serve
+  ```
 
 ## ⚠️ Important Disclaimer and Legal Notice
 
-- **WhatsApp Terms of Service**: Automated messaging can violate WhatsApp's Terms of Service. This tool should be used responsibly. Sending unsolicited bulk messages (spam) will likely result in your WhatsApp account being permanently banned. It is highly recommended to use the official WhatsApp Cloud API for business use cases.
-- **Data Privacy**: Ensure that your scraping and outreach activities comply with local data protection and privacy regulations (such as GDPR, CCPA, or CAN-SPAM). Only reach out to businesses and individuals who have public-facing contact information intended for business inquiries.
-- **Liability**: The creators of this software are not responsible for any account bans, legal disputes, or damages caused by the misuse of this tool.
+- **WhatsApp Terms of Service**: If you plan to automate the personalized messages via OpenWA or other libraries, note that automated messaging can violate WhatsApp's Terms of Service. Sending unsolicited bulk messages will likely result in account bans. It is highly recommended to use the official WhatsApp Cloud API for business use cases.
+- **Data Privacy**: Ensure that your scraping and outreach activities comply with local data protection and privacy regulations. Only reach out to businesses who have public-facing contact information intended for business inquiries.
 
 ## 🤝 Contributing
 

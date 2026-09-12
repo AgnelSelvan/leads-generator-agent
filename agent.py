@@ -9,11 +9,12 @@ load_dotenv()
 def init_db():
     conn = sqlite3.connect("leads.sqlite")
     cursor = conn.cursor()
+    # Do not drop table, just create if not exists
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS leads (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             pincode TEXT,
-            place_id TEXT UNIQUE,
+            place_id TEXT,
             company_name TEXT,
             address TEXT,
             website TEXT,
@@ -25,7 +26,25 @@ def init_db():
             rating REAL,
             category TEXT,
             about_the_company TEXT,
-            customized_whatsapp_message TEXT
+            customized_whatsapp_message TEXT,
+            place_url TEXT,
+            social_media TEXT,
+            featured_image_url TEXT,
+            reservation_url TEXT,
+            number_of_reviews INTEGER,
+            number_of_images INTEGER,
+            price_level TEXT,
+            opening_hours TEXT,
+            service_options TEXT,
+            highlights TEXT,
+            accessibility TEXT,
+            payment_types TEXT
+        )
+    """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS keywords (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            keyword TEXT UNIQUE NOT NULL
         )
     """)
     conn.commit()
@@ -47,11 +66,17 @@ def save_lead_to_db(lead_data: dict) -> str:
             INSERT INTO leads (
                 pincode, place_id, company_name, address, website,
                 mobile_no, email, country_code, latitude,
-                longitude, rating, category, about_the_company, customized_whatsapp_message
+                longitude, rating, category, about_the_company, customized_whatsapp_message,
+                place_url, social_media, featured_image_url, reservation_url,
+                number_of_reviews, number_of_images, price_level, opening_hours,
+                service_options, highlights, accessibility, payment_types
             ) VALUES (
                 :pincode, :place_id, :company_name, :address, :website,
                 :mobile_no, :email, :country_code, :latitude,
-                :longitude, :rating, :category, :about_the_company, :customized_whatsapp_message
+                :longitude, :rating, :category, :about_the_company, :customized_whatsapp_message,
+                :place_url, :social_media, :featured_image_url, :reservation_url,
+                :number_of_reviews, :number_of_images, :price_level, :opening_hours,
+                :service_options, :highlights, :accessibility, :payment_types
             )
         """, lead_data)
 

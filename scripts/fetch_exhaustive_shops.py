@@ -26,7 +26,15 @@ FIELD_MASK = (
     "places.rating,"
     "places.primaryType,"
     "places.types,"
-    "places.editorialSummary"
+    "places.editorialSummary,"
+    "places.googleMapsUri,"
+    "places.userRatingCount,"
+    "places.photos,"
+    "places.reservable,"
+    "places.priceLevel,"
+    "places.regularOpeningHours,"
+    "places.paymentOptions,"
+    "places.accessibilityOptions"
 )
 
 # Categories and keywords to search for
@@ -149,6 +157,33 @@ def main(pincode: str = "627117"):
             clean_category = category.replace("_", " ").title()
             about = f"{name} is a {clean_category} located in the area with pincode {PINCODE}, providing quality services and products to the local community."
 
+        # Additional Fields for the new Schema
+        place_url = place.get("googleMapsUri", "N/A")
+        social_media = "N/A" # Not provided natively by this API endpoint
+        
+        photos = place.get("photos", [])
+        featured_image_url = photos[0].get("name", "N/A") if photos else "N/A"
+        
+        reservation_url = str(place.get("reservable", "N/A"))
+        number_of_reviews = place.get("userRatingCount", 0)
+        number_of_images = len(photos)
+        
+        price_level = place.get("priceLevel", "N/A")
+        
+        import json
+        
+        opening_hours_dict = place.get("regularOpeningHours", {})
+        opening_hours = json.dumps(opening_hours_dict.get("weekdayDescriptions", [])) if opening_hours_dict else "[]"
+        
+        payment_options = place.get("paymentOptions", {})
+        payment_types = json.dumps(payment_options) if payment_options else "{}"
+        
+        accessibility_options = place.get("accessibilityOptions", {})
+        accessibility = json.dumps(accessibility_options) if accessibility_options else "{}"
+        
+        service_options = "N/A" # Kept generic as features aren't always present
+        highlights = about # We already extracted editorial summary for about
+        
         lead_data = {
             "pincode": PINCODE,
             "place_id": place_id,
@@ -163,9 +198,20 @@ def main(pincode: str = "627117"):
             "rating": rating if rating != "N/A" else 0.0,
             "category": category,
             "about_the_company": about,
-            "customized_whatsapp_message": whatsapp_message
+            "customized_whatsapp_message": whatsapp_message,
+            "place_url": place_url,
+            "social_media": social_media,
+            "featured_image_url": featured_image_url,
+            "reservation_url": reservation_url,
+            "number_of_reviews": number_of_reviews,
+            "number_of_images": number_of_images,
+            "price_level": price_level,
+            "opening_hours": opening_hours,
+            "service_options": service_options,
+            "highlights": highlights,
+            "accessibility": accessibility,
+            "payment_types": payment_types
         }
-
         result = save_lead_to_db(lead_data)
         print(result)
 
