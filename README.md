@@ -1,6 +1,6 @@
 # 🚀 AI Leads Generator
 
-An open-source, AI-powered lead generation dashboard built with **FastAPI**, **Google ADK (Gemini)**, and **Next.js**. 
+An open-source, AI-powered lead generation dashboard built with **FastAPI**, **Google ADK (Gemini)**, and **Next.js**.
 
 This platform allows you to conversationally ask an AI agent to find business leads (e.g., "Find software agencies in 10001"). The agent understands your query, triggers a backend search, saves the leads to a local SQLite database, and plots them beautifully on an interactive map.
 
@@ -62,11 +62,12 @@ pip install -r requirements.txt
 
 Set up your environment variables:
 1. Copy `.env.example` to a new file named `.env`
-2. Open `.env` and add your Gemini API Key:
+2. Open `.env` and add your API Keys:
    ```env
    GEMINI_API_KEY=your_gemini_api_key_here
+   GOOGLE_MAPS_API_KEY=your_google_maps_api_key_here
    ```
-   *(You can get a free key from [Google AI Studio](https://aistudio.google.com/))*
+   *(You can get a Gemini key from [Google AI Studio](https://aistudio.google.com/) and a Maps key from [Google Cloud Console](https://console.cloud.google.com/))*
 
 Run the backend server:
 
@@ -96,7 +97,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the d
 
 ## 🤝 Contributing
 
-Contributions, issues, and feature requests are welcome! 
+Contributions, issues, and feature requests are welcome!
 Feel free to check [issues page](https://github.com/yourusername/leads-generator/issues).
 
 1. Fork the Project
@@ -115,8 +116,7 @@ Distributed under the MIT License. See `LICENSE` for more information.
 
 **This project is provided for educational and research purposes only.**
 
-The default Python scraping script (`scripts/fetch_exhaustive_shops.py`) uses automated methods to extract data from Google Maps. 
-**Scraping Google Maps violates Google's Terms of Service.** 
-The creators and contributors of this repository assume **no liability** for how you use this code. 
+**Scraping Google Maps violates Google's Terms of Service.**
+The creators and contributors of this repository assume **no liability** for how you use this code.
 
 If you plan to use this project in a production or commercial environment, you **must** replace the scraping script with a legitimate, ToS-compliant data source such as the [official Google Places API](https://developers.google.com/maps/documentation/places/web-service/overview), Yelp API, Apollo, or OpenStreetMap.
