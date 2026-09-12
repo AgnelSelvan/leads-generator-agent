@@ -40,17 +40,20 @@ To run this project, you will need:
 
 ## 💻 Usage
 
-1. **Start the OpenWA Server:**
-   Launch the WhatsApp client and scan the QR code to authenticate your session.
+The project features a single entry point `main.py` for simplicity.
+
+1. **Run the Fetcher directly (CLI):**
+   You can fetch leads for a specific pincode directly via the command line. This will store the leads directly into `leads.sqlite`.
    ```bash
-   node wa-server.js
+   python main.py fetch 10001
    ```
 
-2. **Run the Leads Generator:**
-   Use the Python script to search for leads by pincode and initiate the outreach pipeline.
+2. **Start the API Server (SSE):**
+   Run the FastAPI server which exposes an SSE endpoint `/stream_leads?pincode={pincode}`.
    ```bash
-   python main.py --pincode 10001 --niche "Restaurants"
+   python main.py serve
    ```
+   *(Optional)* You can define host and port: `python main.py serve --host 127.0.0.1 --port 8000`
 
 ## ⚠️ Important Disclaimer and Legal Notice
 

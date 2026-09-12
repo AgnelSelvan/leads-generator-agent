@@ -1,4 +1,6 @@
+fastapi
+uvicorn
+google-adk
+python-dotenv
 requests
-beautifulsoup4
-pandas
-lxml
+pydantic

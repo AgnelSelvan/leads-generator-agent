@@ -1,43 +1,32 @@
-import requests
-from bs4 import BeautifulSoup
-import pandas as pd
 import argparse
-
-def scrape_leads(url):
-    print(f"Scraping leads from {url}...")
-    try:
-        response = requests.get(url, headers={'User-Agent': 'Mozilla/5.0'})
-        response.raise_for_status()
-        soup = BeautifulSoup(response.content, 'lxml')
-        
-        leads = []
-        # Example: Scrape emails (this is just a dummy implementation)
-        # In a real scenario, this would parse specific HTML elements
-        for link in soup.find_all('a', href=True):
-            if 'mailto:' in link['href']:
-                email = link['href'].replace('mailto:', '')
-                leads.append({'email': email})
-                
-        return leads
-    except Exception as e:
-        print(f"Error scraping {url}: {e}")
-        return []
+import sys
+import uvicorn
+from scripts.fetch_exhaustive_shops import main as fetch_shops
 
 def main():
-    parser = argparse.ArgumentParser(description="Basic Open-Source Leads Generator")
-    parser.add_argument('url', help="URL to scrape leads from")
-    parser.add_argument('--output', default='leads.csv', help="Output CSV file name")
-    
+    parser = argparse.ArgumentParser(description="Smart Bill Book Leads Generator")
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
+    # Command: serve
+    serve_parser = subparsers.add_parser("serve", help="Start the FastAPI SSE server")
+    serve_parser.add_argument("--host", default="0.0.0.0", help="Host address")
+    serve_parser.add_argument("--port", type=int, default=8000, help="Port number")
+
+    # Command: fetch
+    fetch_parser = subparsers.add_parser("fetch", help="Fetch leads for a specific pincode")
+    fetch_parser.add_argument("pincode", type=str, help="The pincode to search for leads")
+
     args = parser.parse_args()
-    
-    leads = scrape_leads(args.url)
-    
-    if leads:
-        df = pd.DataFrame(leads)
-        df.to_csv(args.output, index=False)
-        print(f"Successfully saved {len(leads)} leads to {args.output}")
+
+    if args.command == "serve":
+        print(f"Starting server on {args.host}:{args.port}...")
+        uvicorn.run("api:app", host=args.host, port=args.port, reload=True)
+    elif args.command == "fetch":
+        print(f"Fetching leads for pincode: {args.pincode}...")
+        fetch_shops(args.pincode)
     else:
-        print("No leads found.")
+        parser.print_help()
+        sys.exit(1)
 
 if __name__ == "__main__":
     main()
