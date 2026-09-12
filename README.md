@@ -42,7 +42,7 @@ Follow these instructions to get a copy of the project up and running on your lo
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yourusername/leads-generator.git
+git clone https://github.com/AgnelSelvan/leads-generator-agent.git
 cd leads-generator
 ```
 
@@ -98,7 +98,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser to see the d
 ## 🤝 Contributing
 
 Contributions, issues, and feature requests are welcome!
-Feel free to check [issues page](https://github.com/yourusername/leads-generator/issues).
+Feel free to check [issues page](https://github.com/AgnelSelvan/leads-generator-agent/issues).
 
 1. Fork the Project
 2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
