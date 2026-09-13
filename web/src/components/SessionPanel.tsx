@@ -11,6 +11,10 @@ export default function SessionPanel() {
   
   const [newSessionName, setNewSessionName] = useState("");
   const [apiKey, setApiKey] = useState(process.env.NEXT_PUBLIC_OPENWA_API_KEY || "");
+  const [testNumber, setTestNumber] = useState("");
+  const [testMessage, setTestMessage] = useState("Hello from OpenWA");
+  const [sendLoading, setSendLoading] = useState(false);
+  const [sendResult, setSendResult] = useState("");
 
   const baseUrl = process.env.NEXT_PUBLIC_OPENWA_BASE_URL || "http://localhost:2785";
 
@@ -129,8 +133,50 @@ export default function SessionPanel() {
     }
   };
 
+  const handleSendMessage = async () => {
+    if (!selectedSession || !testNumber || !testMessage) return;
+    setSendLoading(true);
+    setSendResult("");
+    const sId = selectedSession.id || selectedSession.sessionId;
+    
+    try {
+      const checkRes = await fetch(`${baseUrl}/api/sessions/${sId}/contacts/check/${testNumber}`, { headers: getHeaders() });
+      if (!checkRes.ok) {
+        setSendResult("Failed to check contact.");
+        setSendLoading(false);
+        return;
+      }
+      const checkData = await checkRes.json();
+      if (!checkData.exists) {
+        setSendResult("Contact does not exist on WhatsApp.");
+        setSendLoading(false);
+        return;
+      }
+      
+      const whatsappId = checkData.whatsappId || checkData.jid;
+      
+      const sendRes = await fetch(`${baseUrl}/api/sessions/${sId}/messages/send-text`, {
+        method: "POST",
+        headers: getHeaders(),
+        body: JSON.stringify({ chatId: whatsappId, text: testMessage })
+      });
+      
+      if (sendRes.ok) {
+        setSendResult("Message sent successfully!");
+      } else {
+        setSendResult("Failed to send message.");
+      }
+    } catch (err) {
+      setSendResult("Error sending message.");
+    } finally {
+      setSendLoading(false);
+    }
+  };
+
   useEffect(() => {
     fetchSessions();
+    const interval = setInterval(fetchSessions, 60000);
+    return () => clearInterval(interval);
   }, [fetchSessions]);
 
   useEffect(() => {
@@ -196,7 +242,8 @@ export default function SessionPanel() {
                 const sId = s.id || s.sessionId;
                 const displayName = s.name || sId;
                 const isSelected = selectedSession && (selectedSession.id === sId || selectedSession.sessionId === sId);
-                const isStarted = s.status === "READY" || s.status === "CONNECTED" || s.status === "STARTING" || s.status === "UNPAIRED" || s.status === "SCAN_QR_CODE" || s.status === "qr" || s.status === "qr_ready";
+                const statusStr = (s.status || "").toLowerCase();
+                const isStarted = ["ready", "connected", "starting", "unpaired", "scan_qr_code", "qr", "qr_ready"].includes(statusStr);
                 return (
                   <div 
                     key={sId || i}
@@ -207,7 +254,7 @@ export default function SessionPanel() {
                       <span className="font-semibold text-foreground">{displayName}</span>
                       <div className="flex items-center gap-2">
                         <span className="text-xs font-bold text-text-mute uppercase">{s.status}</span>
-                        <span className={`w-2.5 h-2.5 rounded-full ${s.status === "READY" || s.status === "CONNECTED" ? "bg-green-500" : s.status === "ERROR" ? "bg-red-500" : "bg-yellow-500 animate-pulse"}`}></span>
+                        <span className={`w-2.5 h-2.5 rounded-full ${["ready", "connected"].includes(statusStr) ? "bg-green-500" : ["error"].includes(statusStr) ? "bg-red-500" : "bg-yellow-500 animate-pulse"}`}></span>
                       </div>
                     </div>
                     <div className="flex flex-wrap gap-2">
@@ -275,7 +322,7 @@ export default function SessionPanel() {
                   <p className="text-sm text-text-mute mt-1">Status: {selectedSession.status}</p>
                 </div>
                 <div className="flex gap-2">
-                  {(selectedSession.status === "READY" || selectedSession.status === "CONNECTED" || selectedSession.status === "STARTING" || selectedSession.status === "UNPAIRED" || selectedSession.status === "SCAN_QR_CODE" || selectedSession.status === "qr" || selectedSession.status === "qr_ready") ? (
+                  {["ready", "connected", "starting", "unpaired", "scan_qr_code", "qr", "qr_ready"].includes((selectedSession.status || "").toLowerCase()) ? (
                     <>
                       <button
                         onClick={() => stopSession(selectedSession.id || selectedSession.sessionId)}
@@ -324,13 +371,40 @@ export default function SessionPanel() {
                 </div>
               ) : (
                 <div className="flex flex-col items-center justify-center py-12 text-center text-text-mute">
-                  {selectedSession.status === "READY" || selectedSession.status === "CONNECTED" ? (
+                  {["ready", "connected"].includes((selectedSession.status || "").toLowerCase()) ? (
                     <>
                       <div className="w-16 h-16 bg-green-100 text-green-500 rounded-full flex items-center justify-center mb-4">
                         <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="3" d="M5 13l4 4L19 7"></path></svg>
                       </div>
                       <p className="font-semibold text-foreground">WhatsApp Connected!</p>
-                      <p className="text-sm mt-2">This session is ready to send and receive messages.</p>
+                      <p className="text-sm mt-2 mb-6">This session is ready to send and receive messages.</p>
+                      
+                      <div className="w-full max-w-md bg-surface border border-hairline-strong rounded-xl p-6 text-left">
+                        <h4 className="font-semibold text-foreground mb-4">Test Send Message</h4>
+                        <div className="flex flex-col gap-3">
+                          <input 
+                            type="text" 
+                            placeholder="Mobile No (with country code, e.g. 919769426625)" 
+                            value={testNumber}
+                            onChange={(e) => setTestNumber(e.target.value)}
+                            className="w-full bg-surface border border-hairline-strong rounded-lg px-3 py-2 text-sm focus:outline-primary"
+                          />
+                          <textarea 
+                            placeholder="Message" 
+                            value={testMessage}
+                            onChange={(e) => setTestMessage(e.target.value)}
+                            className="w-full bg-surface border border-hairline-strong rounded-lg px-3 py-2 text-sm focus:outline-primary min-h-[80px]"
+                          />
+                          <button 
+                            onClick={handleSendMessage}
+                            disabled={sendLoading || !testNumber || !testMessage}
+                            className="w-full bg-primary text-on-primary py-2 rounded-lg text-sm font-semibold hover:bg-primary-deep disabled:opacity-50 mt-2"
+                          >
+                            {sendLoading ? "Sending..." : "Send Message"}
+                          </button>
+                          {sendResult && <p className={`text-xs mt-2 text-center font-medium ${sendResult.includes("success") ? "text-green-600" : "text-red-600"}`}>{sendResult}</p>}
+                        </div>
+                      </div>
                     </>
                   ) : (
                     <p className="text-sm">No action required at this time. Start the session to generate a QR code.</p>
