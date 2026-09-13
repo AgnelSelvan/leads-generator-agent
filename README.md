@@ -15,6 +15,7 @@ This platform allows you to conversationally ask an AI agent to find business le
 
 - **🤖 Conversational AI Agent**: Built with Google ADK (Agent Development Kit). Just chat with the agent to request leads!
 - **📍 Interactive Maps**: Visualizes all discovered leads on an OpenStreetMap using Leaflet and React-Leaflet.
+- **📱 WhatsApp Integration**: Built-in support for OpenWA. Manage WhatsApp sessions, connect via QR code, check contact validity, and send text messages directly from the dashboard.
 - **🎨 Modern UI/UX**: An elegant, Gen Z / Airbnb-inspired design system built entirely with **Tailwind CSS v4**. Features smooth animations, pill-shaped UI components, and high-contrast typography.
 - **💾 Local Database**: Persists chat history, target keywords, and fetched leads into a local SQLite database (`leads.sqlite`).
 - **⚡ Real-time Streaming**: Uses Server-Sent Events (SSE) to stream data from the backend to the frontend seamlessly.
@@ -69,6 +70,12 @@ Set up your environment variables:
    ```
    *(You can get a Gemini key from [Google AI Studio](https://aistudio.google.com/) and a Maps key from [Google Cloud Console](https://console.cloud.google.com/))*
 
+3. Open `web/.env` and configure your OpenWA API credentials:
+   ```env
+   NEXT_PUBLIC_OPENWA_BASE_URL=http://localhost:2785
+   NEXT_PUBLIC_OPENWA_API_KEY=your_openwa_api_key_here
+   ```
+
 Run the backend server:
 
 ```bash
@@ -76,7 +83,12 @@ python api.py
 ```
 *The API will start running at `http://localhost:8000`*
 
-### 3. Frontend Setup (Next.js)
+### 3. OpenWA Setup (WhatsApp)
+
+To use the WhatsApp features, you must have an OpenWA server running on port `2785`.
+Please refer to the [OpenWA documentation](https://openwa.dev/) for instructions on how to install and run the OpenWA API server.
+
+### 4. Frontend Setup (Next.js)
 
 Open a new terminal window and navigate to the `web` directory:
 
