@@ -46,7 +46,7 @@ export default function LeadDetailsPage({ params }: { params: Promise<{ place_id
   useEffect(() => {
     const fetchLead = async () => {
       try {
-        const res = await fetch(`http://localhost:8000/leads/${place_id}`);
+        const res = await fetch(`http://127.0.0.1:8000/leads/${place_id}`);
         if (res.ok) {
           const data = await res.json();
           setLead(data);

@@ -17,6 +17,23 @@
   --hairline-strong: #dddddd;
 }
 
+.dark {
+  --background: #121212;
+  --surface: #1e1e1e;
+  --surface-raised: #252525;
+  --surface-strong: #2c2c2c;
+  --foreground: #ffffff;
+  --primary: #ff385c;
+  --primary-deep: #e00b41;
+  --on-primary: #ffffff;
+  --secondary: #1e1e1e;
+  --teal: #ff385c;
+  --text: #e0e0e0;
+  --text-mute: #a0a0a0;
+  --hairline: #333333;
+  --hairline-strong: #444444;
+}
+
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
