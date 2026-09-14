@@ -238,6 +238,72 @@ async def update_lead_status(place_id: str, request: UpdateStatusRequest):
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 
+@app.post(
+    "/leads/{place_id}/generate_message",
+    summary="Generate Personalized Message",
+    tags=["Leads"]
+)
+async def generate_personalized_message(place_id: str):
+    import sqlite3
+    from fastapi import HTTPException
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        
+        # Get lead
+        cursor.execute("SELECT * FROM leads WHERE place_id = ?", (place_id,))
+        lead = cursor.fetchone()
+        if not lead:
+            conn.close()
+            raise HTTPException(status_code=404, detail="Lead not found")
+            
+        # Get company context
+        cursor.execute("SELECT value FROM settings WHERE key = 'company_context'")
+        context_row = cursor.fetchone()
+        company_context = context_row["value"] if context_row else ""
+        
+        prompt = f"""
+        You are an expert GenZ marketer. Write a highly personalized, humanized WhatsApp outreach message with a GenZ vibe for the following lead.
+        Rules:
+        1. Keep the message VERY short and crisp, strictly exactly 2 lines maximum.
+        2. Make it sound casual, friendly, modern, and engaging. Avoid overly corporate jargon. Use relevant emojis but don't overdo it.
+        3. Draft only the message content. No pleasantries or explanations before or after the message.
+        4. If the 'Our Company Context' below contains a website URL, you MUST append that exact website URL at the very bottom of the message on a new line.
+
+        Our Company Context (What we do/offer):
+        {company_context}
+
+        Target Lead Information:
+        Company Name: {lead['company_name']}
+        Category: {lead['category']}
+        About: {lead['about_the_company']}
+        Highlights: {lead['highlights']}
+        """
+        
+        from google.genai import Client
+        client = Client()
+        response = client.models.generate_content(
+            model='gemini-2.5-flash',
+            contents=prompt
+        )
+        
+        generated_message = response.text.strip()
+        
+        # Save to DB
+        cursor.execute(
+            "UPDATE leads SET customized_whatsapp_message = ? WHERE place_id = ?",
+            (generated_message, place_id)
+        )
+        conn.commit()
+        conn.close()
+        
+        return {"status": "success", "message": generated_message}
+    except Exception as e:
+        import traceback
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 class KeywordRequest(BaseModel):
     keyword: str
@@ -299,6 +365,49 @@ async def delete_keyword(keyword_id: int):
         conn.commit()
         conn.close()
         return {"status": "success"}
+    except Exception as e:
+        return {"error": str(e)}
+
+class SettingRequest(BaseModel):
+    value: str
+
+@app.get(
+    "/settings/{key}",
+    summary="Get a Setting",
+    tags=["Settings"]
+)
+async def get_setting(key: str):
+    import sqlite3
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("SELECT value FROM settings WHERE key = ?", (key,))
+        row = cursor.fetchone()
+        conn.close()
+        if row:
+            return {"key": key, "value": row["value"]}
+        return {"key": key, "value": ""}
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.post(
+    "/settings/{key}",
+    summary="Update a Setting",
+    tags=["Settings"]
+)
+async def update_setting(key: str, request: SettingRequest):
+    import sqlite3
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        cursor = conn.cursor()
+        cursor.execute(
+            "INSERT INTO settings (key, value) VALUES (?, ?) ON CONFLICT(key) DO UPDATE SET value=excluded.value",
+            (key, request.value)
+        )
+        conn.commit()
+        conn.close()
+        return {"status": "success", "key": key, "value": request.value}
     except Exception as e:
         return {"error": str(e)}
 

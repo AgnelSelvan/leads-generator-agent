@@ -7,6 +7,7 @@ import dynamic from "next/dynamic";
 const LeadsMap = dynamic(() => import("@/components/LeadsMap"), { ssr: false });
 import SessionPanel from "@/components/SessionPanel";
 import AutomationPanel from "@/components/AutomationPanel";
+import PersonalizePanel from "@/components/PersonalizePanel";
 
 interface Lead {
   pincode: string;
@@ -32,7 +33,7 @@ export default function Home() {
   const [groupedLeads, setGroupedLeads] = useState<Record<string, Lead[]>>({});
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string>("");
-  const [activeTab, setActiveTab] = useState<"chat" | "leads" | "keywords" | "map" | "session" | "automation">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "leads" | "keywords" | "map" | "session" | "automation" | "personalize">("chat");
   const [keywords, setKeywords] = useState<{ id: number; keyword: string }[]>([]);
   const [newKeyword, setNewKeyword] = useState("");
   const [keywordLoading, setKeywordLoading] = useState(false);
@@ -359,6 +360,18 @@ export default function Home() {
             </button>
             <button
               onClick={() => {
+                setActiveTab("personalize");
+                setIsSidebarOpen(false);
+              }}
+              className={`w-full text-left px-5 py-3 rounded-full font-[600] text-[15px] leading-none transition-all duration-200 focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2 ${activeTab === "personalize"
+                ? "bg-surface-strong text-foreground"
+                : "text-text-mute hover:bg-surface-strong hover:text-foreground"
+                }`}
+            >
+              Personalize
+            </button>
+            <button
+              onClick={() => {
                 setActiveTab("automation");
                 setIsSidebarOpen(false);
               }}
@@ -548,6 +561,7 @@ export default function Home() {
                           <th className="px-6 py-4 font-[600] text-foreground">Category</th>
                           <th className="px-6 py-4 font-[600] text-foreground">Contact</th>
                           <th className="px-6 py-4 font-[600] text-foreground">Address & Pincode</th>
+                          <th className="px-6 py-4 font-[600] text-foreground">Generated Message</th>
                           <th className="px-6 py-4 font-[600] text-foreground text-right">Rating</th>
                         </tr>
                       </thead>
@@ -569,6 +583,15 @@ export default function Home() {
                             <td className="px-6 py-5 max-w-[200px] truncate">
                               <div className="font-[500] text-foreground truncate">{lead.address}</div>
                               <div className="text-[13px] text-text-mute mt-1">Pincode: {lead.pincode}</div>
+                            </td>
+                            <td className="px-6 py-5 max-w-[250px]">
+                              {lead.customized_whatsapp_message && lead.customized_whatsapp_message !== "NOT_SENT" ? (
+                                <div className="text-[13px] text-text-mute truncate italic border-l-2 border-primary pl-2">
+                                  {lead.customized_whatsapp_message}
+                                </div>
+                              ) : (
+                                <span className="text-[12px] text-text-mute font-[500] bg-surface-raised px-2 py-1 rounded-md border border-hairline">Pending</span>
+                              )}
                             </td>
                             <td className="px-6 py-5 font-[600] text-foreground tabular-nums text-right flex items-center justify-end gap-1">
                               <svg className="w-4 h-4 text-foreground" fill="currentColor" viewBox="0 0 20 20"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"></path></svg>
@@ -692,6 +715,12 @@ export default function Home() {
           {activeTab === "automation" && (
             <div className="flex-1 flex flex-col h-full bg-surface-raised animate-fade-in overflow-hidden lg:rounded-xl lg:border border-hairline-strong shadow-sm">
               <AutomationPanel />
+            </div>
+          )}
+
+          {activeTab === "personalize" && (
+            <div className="flex-1 flex flex-col h-full bg-surface-raised animate-fade-in overflow-hidden lg:rounded-xl lg:border border-hairline-strong shadow-sm">
+              <PersonalizePanel />
             </div>
           )}
         </div>
