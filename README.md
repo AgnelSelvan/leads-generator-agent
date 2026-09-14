@@ -13,9 +13,16 @@ This platform allows you to conversationally ask an AI agent to find business le
 
 ## ✨ Features
 
-- **🤖 Conversational AI Agent**: Built with Google ADK (Agent Development Kit). Just chat with the agent to request leads!
-- **📍 Interactive Maps**: Visualizes all discovered leads on an OpenStreetMap using Leaflet and React-Leaflet.
-- **📱 WhatsApp Integration**: Built-in support for OpenWA. Manage WhatsApp sessions, connect via QR code, check contact validity, and send text messages directly from the dashboard.
+| Feature | Description | Screenshot |
+|---------|-------------|------------|
+| 🤖 **Assistant (Chat)** | Built with Google ADK (Agent Development Kit). Just chat with the agent to request leads based on location or category. The agent extracts constraints and manages the scraping pipeline. | <img src="docs/assistant.png" width="300" alt="Assistant"/> |
+| 👥 **Leads** | A clean table view to browse all your generated leads. Sort, filter, and track statuses seamlessly. Clicking on any lead brings up an exhaustive details view. | <img src="docs/leads.png" width="300" alt="Leads"/> |
+| 🔑 **Keywords** | Manage specific keywords to target your search and refine what data gets extracted. | <img src="docs/keywords.png" width="300" alt="Keywords"/> |
+| 📍 **Map View** | Visualize all your discovered leads on an interactive OpenStreetMap. See exactly where your prospects are located. | <img src="docs/map.png" width="300" alt="Map View"/> |
+| 📱 **WhatsApp Session** | Built-in support for OpenWA. Manage WhatsApp sessions by scanning a QR code, ensuring you are connected before sending out outreach messages. | <img src="docs/session.png" width="300" alt="WhatsApp Session"/> |
+| ✨ **Personalize** | Configure your company's context to automatically generate highly tailored, human-sounding "GenZ vibe" WhatsApp messages for each individual lead using Gemini. Keep track of what's been generated and quickly regenerate text if you don't like the result. | <img src="docs/personalize.png" width="300" alt="Personalize"/> |
+| ⚡ **Automation** | Send out the personalized WhatsApp messages in an automated, delayed sequence. The system first checks if the number is on WhatsApp, simulates a natural "typing" state for 20-45 seconds, sends the pitch, and then waits 2 minutes before contacting the next lead. Activity logs are preserved in the database. | <img src="docs/automation.png" width="300" alt="Automation"/> |
+
 - **🎨 Modern UI/UX**: An elegant, Gen Z / Airbnb-inspired design system built entirely with **Tailwind CSS v4**. Features smooth animations, pill-shaped UI components, and high-contrast typography.
 - **💾 Local Database**: Persists chat history, target keywords, and fetched leads into a local SQLite database (`leads.sqlite`).
 - **⚡ Real-time Streaming**: Uses Server-Sent Events (SSE) to stream data from the backend to the frontend seamlessly.
