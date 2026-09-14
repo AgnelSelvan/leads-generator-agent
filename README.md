@@ -45,31 +45,21 @@ This platform allows you to conversationally ask an AI agent to find business le
 
 ## 🚀 Getting Started
 
-Follow these instructions to get a copy of the project up and running on your local machine.
+You can run this project using either **Docker Compose** (recommended for simplicity) or manually via the **Command Line**.
 
 ### 1. Clone the repository
 
 ```bash
 git clone https://github.com/AgnelSelvan/leads-generator-agent.git
-cd leads-generator
+cd leads-generator-agent
 ```
 
-### 2. Backend Setup (FastAPI & Agent)
+### 2. Configure Environment Variables
 
-Create a virtual environment and install the dependencies:
-
-```bash
-python -m venv venv
-# Windows
-venv\Scripts\activate
-# macOS/Linux
-source venv/bin/activate
-
-pip install -r requirements.txt
-```
-
-Set up your environment variables:
-1. Copy `.env.example` to a new file named `.env`
+1. Copy `.env.example` to a new file named `.env` in the root directory:
+   ```bash
+   cp .env.example .env
+   ```
 2. Open `.env` and add your API Keys:
    ```env
    GEMINI_API_KEY=your_gemini_api_key_here
@@ -77,40 +67,51 @@ Set up your environment variables:
    ```
    *(You can get a Gemini key from [Google AI Studio](https://aistudio.google.com/) and a Maps key from [Google Cloud Console](https://console.cloud.google.com/))*
 
-3. Open `web/.env` and configure your OpenWA API credentials:
+3. Configure OpenWA variables for the frontend:
+   ```bash
+   cd web
+   cp .env.example .env
+   ```
+   Open `web/.env` and update (if needed):
    ```env
    NEXT_PUBLIC_OPENWA_BASE_URL=http://localhost:2785
    NEXT_PUBLIC_OPENWA_API_KEY=your_openwa_api_key_here
    ```
 
-Run the backend server:
+### 3. Start the Project
 
+#### Option A: Using Docker Compose (Recommended)
+Return to the root directory and simply run:
 ```bash
+docker-compose up --build
+```
+*Docker will automatically build the Next.js frontend, install Python dependencies, and start both the backend API (port 8000) and web application (port 3000).*
+
+#### Option B: Manual Command Line
+**Start the FastAPI Backend:**
+```bash
+# In the root directory
+python -m venv venv
+source venv/bin/activate  # Or `venv\Scripts\activate` on Windows
+pip install -r requirements.txt
 python api.py
 ```
 *The API will start running at `http://localhost:8000`*
 
-### 3. OpenWA Setup (WhatsApp)
-
-To use the WhatsApp features, you must have an OpenWA server running on port `2785`.
-Please refer to the [OpenWA documentation](https://openwa.dev/) for instructions on how to install and run the OpenWA API server.
-
-### 4. Frontend Setup (Next.js)
-
-Open a new terminal window and navigate to the `web` directory:
-
+**Start the Next.js Frontend:**
 ```bash
+# Open a new terminal window
 cd web
 npm install
-```
-
-Start the Next.js development server:
-
-```bash
 npm run dev
 ```
 
+### 4. Open the Dashboard
 Open [http://localhost:3000](http://localhost:3000) in your browser to see the dashboard!
+
+### 5. OpenWA Setup (WhatsApp)
+To use the WhatsApp features, you must have an OpenWA server running on port `2785`.
+Please refer to the [OpenWA documentation](https://openwa.dev/) for instructions on how to install and run the OpenWA API server alongside this project.
 
 ---
 
