@@ -25,8 +25,11 @@ app.add_middleware(
 )
 
 from pydantic import BaseModel
-from agent import agent
+from agent import agent, init_db
 from google.adk import Runner
+
+# Initialize the database
+init_db()
 from google.adk.events import Event
 from google.adk.sessions import InMemorySessionService
 from google.genai.types import Content, Part
@@ -205,6 +208,33 @@ async def get_lead(place_id: str):
             return dict(row)
         else:
             raise HTTPException(status_code=404, detail="Lead not found")
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+class UpdateStatusRequest(BaseModel):
+    message_status: str
+
+@app.put(
+    "/leads/{place_id}/status",
+    summary="Update Lead Message Status",
+    tags=["Leads"]
+)
+async def update_lead_status(place_id: str, request: UpdateStatusRequest):
+    import sqlite3
+    from fastapi import HTTPException
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        cursor = conn.cursor()
+        cursor.execute(
+            "UPDATE leads SET message_status = ? WHERE place_id = ?",
+            (request.message_status, place_id)
+        )
+        if cursor.rowcount == 0:
+            conn.close()
+            raise HTTPException(status_code=404, detail="Lead not found")
+        conn.commit()
+        conn.close()
+        return {"status": "success", "message_status": request.message_status}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
 

@@ -161,9 +161,6 @@ def main(pincode: str = "627117"):
         types = place.get("types", [])
         category = primary_type if primary_type != "N/A" else (types[0] if types else "N/A")
 
-        # Customized Whatsapp message
-        whatsapp_message = f"Hello {name}, we noticed your business in the area and would love to connect! Reply to this message if you'd be interested in a quick chat."
-
         # About / Description
         about = place.get("editorialSummary", {}).get("text", "")
         if not about:
@@ -212,7 +209,6 @@ def main(pincode: str = "627117"):
             "rating": rating if rating != "N/A" else 0.0,
             "category": category,
             "about_the_company": about,
-            "customized_whatsapp_message": whatsapp_message,
             "place_url": place_url,
             "social_media": social_media,
             "featured_image_url": featured_image_url,

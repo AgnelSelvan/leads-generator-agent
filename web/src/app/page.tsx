@@ -6,6 +6,7 @@ import dynamic from "next/dynamic";
 
 const LeadsMap = dynamic(() => import("@/components/LeadsMap"), { ssr: false });
 import SessionPanel from "@/components/SessionPanel";
+import AutomationPanel from "@/components/AutomationPanel";
 
 interface Lead {
   pincode: string;
@@ -31,7 +32,7 @@ export default function Home() {
   const [groupedLeads, setGroupedLeads] = useState<Record<string, Lead[]>>({});
   const [loading, setLoading] = useState(false);
   const [sessionId, setSessionId] = useState<string>("");
-  const [activeTab, setActiveTab] = useState<"chat" | "leads" | "keywords" | "map" | "session">("chat");
+  const [activeTab, setActiveTab] = useState<"chat" | "leads" | "keywords" | "map" | "session" | "automation">("chat");
   const [keywords, setKeywords] = useState<{ id: number; keyword: string }[]>([]);
   const [newKeyword, setNewKeyword] = useState("");
   const [keywordLoading, setKeywordLoading] = useState(false);
@@ -218,7 +219,7 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen flex flex-col bg-surface-raised text-text font-sans animate-fade-in">
+    <div className="h-screen overflow-hidden flex flex-col bg-surface-raised text-text font-sans animate-fade-in">
       {/* Top App Bar */}
       <header className="w-full bg-surface border-b border-hairline-strong px-6 py-4 flex items-center justify-between sticky top-0 z-50 shadow-sm transition-colors duration-200">
         <div className="flex items-center gap-3">
@@ -248,7 +249,7 @@ export default function Home() {
         </div>
       </header>
 
-      <div className="flex flex-1 p-4 lg:p-6 gap-6 w-full max-w-[1440px] mx-auto h-[calc(100vh-73px)] relative">
+      <div className="flex flex-1 overflow-hidden p-4 lg:p-6 gap-6 w-full max-w-[1440px] mx-auto relative">
         {/* Mobile Overlay */}
         {isSidebarOpen && (
           <div
@@ -356,6 +357,18 @@ export default function Home() {
             >
               WhatsApp Session
             </button>
+            <button
+              onClick={() => {
+                setActiveTab("automation");
+                setIsSidebarOpen(false);
+              }}
+              className={`w-full text-left px-5 py-3 rounded-full font-[600] text-[15px] leading-none transition-all duration-200 focus:outline focus:outline-2 focus:outline-primary focus:outline-offset-2 ${activeTab === "automation"
+                ? "bg-surface-strong text-foreground"
+                : "text-text-mute hover:bg-surface-strong hover:text-foreground"
+                }`}
+            >
+              Automation
+            </button>
 
             {sessions.length > 0 && (
               <div className="pt-6">
@@ -380,7 +393,7 @@ export default function Home() {
         </div>
 
         {/* Main Content Area */}
-        <div className="flex-1 flex flex-col h-[calc(100vh-3rem)] overflow-hidden bg-surface rounded-xl shadow-sm border border-hairline-strong">
+        <div className="flex-1 flex flex-col h-full overflow-hidden bg-surface rounded-xl shadow-sm border border-hairline-strong">
           {activeTab === "chat" && (
             <div className="flex-1 flex flex-col h-full">
               <div className="px-16 py-12 border-b border-hairline">
@@ -435,33 +448,50 @@ export default function Home() {
               </div>
 
               <div className="p-8 px-16 bg-surface border-t border-hairline">
-                <form onSubmit={sendMessage} className="flex flex-col gap-4 max-w-4xl mx-auto w-full">
-                  <div className="relative flex items-center bg-surface-raised rounded-2xl border border-hairline-strong focus-within:border-foreground focus-within:ring-1 focus-within:ring-foreground transition-all duration-200 p-2">
-                    <textarea
-                      value={input}
-                      onChange={(e) => setInput(e.target.value)}
-                      className="w-full bg-transparent px-4 py-3 text-[16px] font-[400] focus:outline-none resize-none min-h-[60px] text-text placeholder:text-text-mute"
-                      placeholder="Ask the assistant to find leads..."
-                      disabled={loading}
-                      onKeyDown={(e) => {
-                        if (e.key === 'Enter' && !e.shiftKey) {
-                          e.preventDefault();
-                          sendMessage(e as any);
-                        }
-                      }}
-                    />
+                {keywords.length === 0 ? (
+                  <div className="max-w-4xl mx-auto w-full flex flex-col items-center justify-center p-6 bg-red-50 border border-red-100 rounded-2xl">
+                    <p className="text-red-600 font-semibold text-center text-lg">
+                      Please add keywords first!
+                    </p>
+                    <p className="text-red-500 text-center text-sm mt-1 mb-4">
+                      Based on keywords, the data will be extracted.
+                    </p>
                     <button
-                      type="submit"
-                      disabled={loading || !input.trim()}
-                      className="absolute right-4 bottom-4 bg-primary text-on-primary h-[48px] px-6 rounded-full text-[16px] font-[600] hover:bg-primary-deep transition-colors duration-200 disabled:opacity-50 disabled:bg-hairline flex items-center justify-center"
+                      onClick={() => setActiveTab("keywords")}
+                      className="bg-red-600 text-white px-6 py-2 rounded-full font-semibold hover:bg-red-700 transition-colors"
                     >
-                      Send
+                      Go to Keywords Tab
                     </button>
                   </div>
-                  <div className="flex justify-between items-center px-2">
-                    <span className="text-[13px] font-[400] text-text-mute">Press Enter to send, Shift+Enter for new line</span>
-                  </div>
-                </form>
+                ) : (
+                  <form onSubmit={sendMessage} className="flex flex-col gap-4 max-w-4xl mx-auto w-full">
+                    <div className="relative flex items-center bg-surface-raised rounded-2xl border border-hairline-strong focus-within:border-foreground focus-within:ring-1 focus-within:ring-foreground transition-all duration-200 p-2">
+                      <textarea
+                        value={input}
+                        onChange={(e) => setInput(e.target.value)}
+                        className="w-full bg-transparent px-4 py-3 text-[16px] font-[400] focus:outline-none resize-none min-h-[60px] text-text placeholder:text-text-mute"
+                        placeholder="Ask the assistant to find leads..."
+                        disabled={loading}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' && !e.shiftKey) {
+                            e.preventDefault();
+                            sendMessage(e as any);
+                          }
+                        }}
+                      />
+                      <button
+                        type="submit"
+                        disabled={loading || !input.trim()}
+                        className="absolute right-4 bottom-4 bg-primary text-on-primary h-[48px] px-6 rounded-full text-[16px] font-[600] hover:bg-primary-deep transition-colors duration-200 disabled:opacity-50 disabled:bg-hairline flex items-center justify-center"
+                      >
+                        Send
+                      </button>
+                    </div>
+                    <div className="flex justify-between items-center px-2">
+                      <span className="text-[13px] font-[400] text-text-mute">Press Enter to send, Shift+Enter for new line</span>
+                    </div>
+                  </form>
+                )}
               </div>
             </div>
           )}
@@ -656,6 +686,12 @@ export default function Home() {
           {activeTab === "session" && (
             <div className="flex-1 flex flex-col h-full bg-surface-raised animate-fade-in overflow-hidden lg:rounded-xl lg:border border-hairline-strong shadow-sm">
               <SessionPanel />
+            </div>
+          )}
+
+          {activeTab === "automation" && (
+            <div className="flex-1 flex flex-col h-full bg-surface-raised animate-fade-in overflow-hidden lg:rounded-xl lg:border border-hairline-strong shadow-sm">
+              <AutomationPanel />
             </div>
           )}
         </div>

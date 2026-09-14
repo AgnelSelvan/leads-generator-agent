@@ -38,13 +38,30 @@ def init_db():
             service_options TEXT,
             highlights TEXT,
             accessibility TEXT,
-            payment_types TEXT
+            payment_types TEXT,
+            message_status TEXT CHECK(message_status IN ('NOT_SENT', 'SENT', 'ERROR')) DEFAULT 'NOT_SENT'
         )
     """)
     cursor.execute("""
         CREATE TABLE IF NOT EXISTS keywords (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             keyword TEXT UNIQUE NOT NULL
+        )
+    """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS sessions (
+            session_id TEXT PRIMARY KEY,
+            title TEXT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
+        )
+    """)
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS chats (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            session_id TEXT,
+            role TEXT,
+            content TEXT,
+            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
         )
     """)
     conn.commit()
@@ -59,6 +76,22 @@ def save_lead_to_db(lead_data: dict) -> str:
             country_code, latitude, longitude, rating, category, about_the_company, customized_whatsapp_message
     """
     try:
+        expected_keys = [
+            "pincode", "place_id", "company_name", "address", "website",
+            "mobile_no", "email", "country_code", "latitude", "longitude",
+            "rating", "category", "about_the_company", "customized_whatsapp_message",
+            "place_url", "social_media", "featured_image_url", "reservation_url",
+            "number_of_reviews", "number_of_images", "price_level", "opening_hours",
+            "service_options", "highlights", "accessibility", "payment_types"
+        ]
+        
+        for key in expected_keys:
+            if key not in lead_data:
+                if key == "customized_whatsapp_message":
+                    lead_data[key] = "NOT_SENT"
+                else:
+                    lead_data[key] = None
+
         conn = sqlite3.connect("leads.sqlite")
         cursor = conn.cursor()
 
