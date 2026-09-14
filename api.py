@@ -411,6 +411,44 @@ async def update_setting(key: str, request: SettingRequest):
     except Exception as e:
         return {"error": str(e)}
 
+class LogRequest(BaseModel):
+    message: str
+
+@app.get(
+    "/logs",
+    summary="Get Automation Logs",
+    tags=["Logs"]
+)
+async def get_logs():
+    import sqlite3
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        conn.row_factory = sqlite3.Row
+        cursor = conn.cursor()
+        cursor.execute("SELECT message, timestamp FROM automation_logs ORDER BY id ASC")
+        rows = cursor.fetchall()
+        conn.close()
+        return [dict(row) for row in rows]
+    except Exception as e:
+        return {"error": str(e)}
+
+@app.post(
+    "/logs",
+    summary="Add Automation Log",
+    tags=["Logs"]
+)
+async def add_log(request: LogRequest):
+    import sqlite3
+    try:
+        conn = sqlite3.connect("leads.sqlite")
+        cursor = conn.cursor()
+        cursor.execute("INSERT INTO automation_logs (message) VALUES (?)", (request.message,))
+        conn.commit()
+        conn.close()
+        return {"status": "success"}
+    except Exception as e:
+        return {"error": str(e)}
+
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8000)

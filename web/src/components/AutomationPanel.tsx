@@ -33,13 +33,38 @@ export default function AutomationPanel() {
     return headers;
   };
 
-  const addLog = (msg: string) => {
-    setLogs((prev) => [...prev, `${new Date().toLocaleTimeString()}: ${msg}`]);
+  const addLog = async (msg: string) => {
+    const logString = `${new Date().toLocaleTimeString()}: ${msg}`;
+    setLogs((prev) => [...prev, logString]);
+    try {
+      await fetch("http://127.0.0.1:8000/logs", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: logString })
+      });
+    } catch (e) {
+      console.error("Failed to save log", e);
+    }
+  };
+
+  const fetchLogs = async () => {
+    try {
+      const res = await fetch("http://127.0.0.1:8000/logs");
+      if (res.ok) {
+        const data = await res.json();
+        if (Array.isArray(data)) {
+          setLogs(data.map(d => d.message));
+        }
+      }
+    } catch (e) {
+      console.error("Failed to fetch logs", e);
+    }
   };
 
   useEffect(() => {
     fetchSessions();
     fetchLeads();
+    fetchLogs();
   }, []);
 
   const fetchSessions = async () => {
@@ -68,9 +93,13 @@ export default function AutomationPanel() {
         Object.values(groupedLeads).forEach((list: any) => {
           allLeads.push(...list);
         });
-        // Filter leads that have mobile_no, customized_whatsapp_message, and are NOT_SENT
+        // Filter leads that have mobile_no, a valid customized message, and status is NOT_SENT
         allLeads = allLeads.filter(
-          (l) => l.mobile_no && l.customized_whatsapp_message && l.message_status === "NOT_SENT"
+          (l) => 
+            l.mobile_no && 
+            l.customized_whatsapp_message && 
+            l.customized_whatsapp_message !== "NOT_SENT" && 
+            l.message_status === "NOT_SENT"
         );
         setLeads(allLeads);
       }
@@ -141,6 +170,31 @@ export default function AutomationPanel() {
 
         const whatsappId = checkData.whatsappId || checkData.jid;
         
+        // Random typing duration between 20 and 45 seconds
+        const typingDuration = Math.floor(Math.random() * (45 - 20 + 1)) + 20;
+        
+        // Simulate typing
+        addLog(`Simulating typing state for ${typingDuration} seconds...`);
+        try {
+          await fetch(`${baseUrl}/api/sessions/${selectedSessionId}/chats/typing`, {
+            method: "POST",
+            headers: getHeaders(),
+            body: JSON.stringify({ chatId: whatsappId, state: "typing" })
+          });
+        } catch (err) {
+          console.error("Failed to set typing state", err);
+        }
+
+        for(let w = 0; w < typingDuration; w++) {
+           if (stopRequested.current) break;
+           await new Promise((resolve) => setTimeout(resolve, 1000));
+        }
+
+        if (stopRequested.current) {
+          addLog("Automation stopped during typing phase.");
+          break;
+        }
+
         // Send the customized message
         const sendRes = await fetch(`${baseUrl}/api/sessions/${selectedSessionId}/messages/send-text`, {
           method: "POST",
